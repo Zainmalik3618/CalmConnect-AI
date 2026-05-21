@@ -1,0 +1,7 @@
+{
+    "username": "admin_support",
+    "email": "your_personal email_for_verification", 
+    "password": "Password123.",
+    "role": "admin",
+    "is_verified": true
+}

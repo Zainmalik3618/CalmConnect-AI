@@ -1,0 +1,432 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/logo.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CalmConnect AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              sage: {
+                50: '#f4f7f5',
+                100: '#e5ebe6',
+                200: '#cedcd1',
+                300: '#abc3b2',
+                400: '#83a38d',
+                500: '#668671',
+                600: '#506a5a',
+                700: '#42564a',
+                800: '#37463d',
+                900: '#2f3b34',
+              },
+              tranquil: {
+                50: '#f0f7f9',
+                100: '#e0f0f4',
+                200: '#bee0e8',
+                300: '#91c7d6',
+                400: '#5ca2b9',
+                500: '#40869d',
+                600: '#386c82',
+                700: '#32596b',
+                800: '#2e4c5a',
+                900: '#29414d',
+              },
+              healing: {
+                50: '#f9f5f0',
+                100: '#f2e8d9',
+                200: '#e5d1b3',
+                300: '#d4b483',
+                400: '#c29654',
+                500: '#ab793a',
+                600: '#8c612f',
+                700: '#714e28',
+                800: '#5c4021',
+                900: '#4b351e',
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* Patient Dashboard Theme Overrides - Healing & Tranquility Palette */
+      .patient-theme {
+        --patient-primary: #506a5a; /* sage-600 */
+        --patient-primary-hover: #42564a; /* sage-700 */
+        --patient-primary-light: #e5ebe6; /* sage-100 */
+        --patient-secondary: #386c82; /* tranquil-600 */
+        --patient-accent: #ab793a; /* healing-500 */
+        --patient-bg: #f4f7f5; /* sage-50 */
+        --patient-surface: #ffffff;
+      }
+
+      .patient-theme .bg-blue-500,
+      .patient-theme .bg-blue-600 {
+        background-color: var(--patient-primary) !important;
+      }
+      .patient-theme .hover\:bg-blue-600:hover,
+      .patient-theme .hover\:bg-blue-700:hover {
+        background-color: var(--patient-primary-hover) !important;
+      }
+      .patient-theme .text-blue-500,
+      .patient-theme .text-blue-600 {
+        color: var(--patient-primary) !important;
+      }
+      
+      .dark .patient-theme .text-blue-400,
+      .dark .patient-theme .text-blue-500 {
+        color: #abc3b2 !important; /* sage-300 */
+      }
+      
+      .patient-theme .ring-blue-500,
+      .patient-theme .focus\:ring-blue-500:focus {
+        --tw-ring-color: var(--patient-primary) !important;
+      }
+      
+      /* Global Background Overrides */
+      .patient-theme .bg-gray-100 {
+        background-color: var(--patient-bg) !important;
+        background-image: radial-gradient(rgba(80, 106, 90, 0.05) 1px, transparent 1px);
+        background-size: 40px 40px;
+      }
+      .dark .patient-theme .bg-gray-900,
+      .dark .patient-theme .bg-gray-100,
+      .dark .patient-theme .bg-gray-50,
+      .dark .patient-theme .dark\:bg-gray-900,
+      .dark .patient-theme .dark\:bg-slate-900,
+      .dark .patient-theme .dark\:bg-zinc-900 {
+        background-color: #1a221d !important; /* Deeper sage-900 for better depth */
+        background-image: radial-gradient(rgba(244, 247, 245, 0.03) 1px, transparent 1px);
+      }
+      
+      /* Sidebar & Depth Adjustments */
+      .patient-theme aside.bg-white,
+      .patient-theme aside.bg-gray-50 {
+        background-color: #fdfdfd !important;
+        border-right-color: rgba(80, 106, 90, 0.1) !important;
+      }
+      .dark .patient-theme aside.bg-gray-900,
+      .dark .patient-theme aside.bg-gray-800,
+      .dark .patient-theme aside.bg-gray-50,
+      .dark .patient-theme aside.bg-white,
+      .dark .patient-theme .bg-\[\#1a202c\] { /* Fix for Various Sidebars */
+        background-color: #242d27 !important; /* sage-900 approximation */
+        border-right-color: rgba(244, 247, 245, 0.05) !important;
+      }
+      
+      /* Card & Modal Adjustments */
+      .patient-theme .bg-white.rounded-xl {
+        border: 1px solid rgba(80, 106, 90, 0.1) !important;
+        box-shadow: 0 4px 20px -2px rgba(80, 106, 90, 0.1) !important;
+      }
+      .dark .patient-theme .bg-gray-800,
+      .dark .patient-theme .bg-gray-700,
+      .dark .patient-theme .bg-white,
+      .dark .patient-theme .bg-zinc-900,
+      .dark .patient-theme .bg-zinc-800,
+      .dark .patient-theme .dark\:bg-gray-800,
+      .dark .patient-theme .dark\:bg-gray-700,
+      .dark .patient-theme [role="dialog"] .bg-white,
+      .dark .patient-theme [role="dialog"] .bg-gray-800,
+      .dark .patient-theme [role="dialog"] .bg-zinc-900 {
+        background-color: #2f3b34 !important; /* sage-800 */
+        border-color: rgba(244, 247, 245, 0.08) !important;
+      }
+      
+      /* Form Element Overrides in Dark Mode */
+      .dark .patient-theme select,
+      .dark .patient-theme textarea,
+      .dark .patient-theme input,
+      .dark .patient-theme .bg-zinc-950 {
+        background-color: #1a221d !important;
+        border-color: #42564a !important; /* sage-700 */
+        color: #f4f7f5 !important;
+      }
+      .dark .patient-theme label,
+      .dark .patient-theme .text-zinc-300,
+      .dark .patient-theme .text-gray-300 {
+        color: #abc3b2 !important; /* sage-300 */
+      }
+
+      /* Specific adjustments for icons and badges */
+      .patient-theme .text-blue-400 { color: #83a38d !important; }
+      .patient-theme .bg-blue-50 { background-color: var(--patient-primary-light) !important; }
+      .patient-theme .text-blue-800 { color: #42564a !important; }
+      .dark .patient-theme .bg-blue-900\/50 { background-color: rgba(66, 86, 74, 0.3) !important; }
+      .patient-theme .bg-blue-400 { background-color: #abc3b2 !important; }
+      
+      /* Readability Fixes for Specific Components from Screenshots */
+      .dark .patient-theme .text-gray-600,
+      .dark .patient-theme .text-zinc-600,
+      .dark .patient-theme .text-slate-600,
+      .dark .patient-theme .text-neutral-600 { 
+        color: #cedcd1 !important; /* Primary readability in cards (sage-200) */
+      }
+      .dark .patient-theme .text-gray-500,
+      .dark .patient-theme .text-zinc-500,
+      .dark .patient-theme .text-slate-500,
+      .dark .patient-theme .text-neutral-500,
+      .dark .patient-theme .text-gray-400,
+      .dark .patient-theme .text-zinc-400,
+      .dark .patient-theme .text-slate-400,
+      .dark .patient-theme .text-neutral-400 { 
+        color: #abc3b2 !important; /* Secondary text (sage-300) */
+      }
+      .dark .patient-theme .text-indigo-600 { color: #91c7d6 !important; } /* Links in dark mode */
+      .dark .patient-theme .hover\:text-indigo-500:hover { color: #bee0e8 !important; }
+      
+      /* Screenshot 1 Fix: Appointment Reminder Text */
+      .dark .patient-theme .bg-blue-600 .text-blue-100,
+      .dark .patient-theme .bg-blue-600 .text-blue-50 { 
+        color: #f4f7f5 !important; 
+      }
+      
+      /* Screenshot 2 Fix: Back navigation button */
+      .dark .patient-theme button .text-gray-600,
+      .dark .patient-theme button .text-blue-600,
+      .dark .patient-theme button svg.text-gray-400 {
+        color: #cedcd1 !important;
+      }
+
+      /* Chat Sidebar Active State (Screenshot 3 & Internal Sidebar Fixes) */
+      .patient-theme aside .bg-blue-100,
+      .patient-theme nav div.bg-blue-100 {
+        background-color: #cedcd1 !important; /* sage-200 */
+      }
+      .patient-theme aside .text-blue-800,
+      .patient-theme nav div .text-blue-800 {
+        color: #1a221d !important; /* sage-900 absolute for legibility */
+      }
+      
+      .dark .patient-theme aside .bg-blue-100,
+      .dark .patient-theme aside button.bg-blue-100,
+      .dark .patient-theme nav div.bg-blue-100,
+      .dark .patient-theme aside .bg-blue-900\/50,
+      .dark .patient-theme nav div.bg-blue-900\/50 {
+        background-color: #42564a !important; /* sage-700 */
+      }
+      .dark .patient-theme aside .text-blue-100,
+      .dark .patient-theme nav div .text-blue-100,
+      .dark .patient-theme aside div.bg-blue-900\/50 button,
+      .dark .patient-theme nav div.bg-blue-900\/50 button,
+      .dark .patient-theme aside button.bg-blue-100 p,
+      .dark .patient-theme aside button.bg-blue-100 span,
+      .dark .patient-theme aside button.bg-blue-100 p.font-semibold {
+        color: #ffffff !important;
+      }
+      .dark .patient-theme aside button.bg-blue-100 p.text-sm {
+        color: #cedcd1 !important; /* Light sage-200 readable subtext */
+      }
+      
+      /* Specific fix for the "unreadable light on light" reported */
+      /* If bg-blue-100 (sage-200) ever appears in dark mode for some reason, force dark text */
+      .dark .patient-theme nav div.bg-blue-100 button {
+        color: #ffffff !important;
+      }
+
+      /* Chat history item hover (Patient Theme) */
+      .patient-theme nav .group.relative:hover {
+        background-color: #e5ebe6 !important; /* sage-100 */
+      }
+      .patient-theme nav .group.relative:hover button {
+        color: #2f3b34 !important; /* sage-900 */
+      }
+      .dark .patient-theme nav .group.relative:hover {
+        background-color: #2f3b34 !important; /* sage-800 */
+      }
+      .dark .patient-theme nav .group.relative:hover button {
+        color: #cedcd1 !important; /* sage-200 */
+      }
+
+      /* Enhanced Sidebar Collapse Button (Sidebar.tsx) */
+      .patient-theme button.absolute.-right-3 {
+        background-color: var(--patient-surface) !important;
+        border-color: rgba(80, 106, 90, 0.2) !important;
+        color: var(--patient-primary) !important;
+      }
+      .dark .patient-theme button.absolute.-right-3 {
+        background-color: #2f3b34 !important; /* sage-800 */
+        border-color: #42564a !important; /* sage-700 */
+        color: #f4f7f5 !important;
+      }
+      
+      /* Navigation and Chat History Lists */
+      .patient-theme aside button.bg-blue-500,
+      .patient-theme aside button.bg-blue-600,
+      .patient-theme nav button.bg-blue-500,
+      .patient-theme nav button.bg-blue-600 {
+        color: #ffffff !important;
+      }
+      .patient-theme nav button {
+        color: #42564a !important; /* sage-700 */
+      }
+      .patient-theme nav button:hover {
+        background-color: #e5ebe6 !important; /* sage-100 */
+        color: #2f3b34 !important; /* sage-900 - dark text on light hover */
+      }
+      /* Prevent light hover on active items */
+      .patient-theme nav button.bg-blue-500:hover,
+      .patient-theme nav button.bg-blue-600:hover {
+        background-color: var(--patient-primary-hover) !important;
+        color: #ffffff !important;
+      }
+
+      .dark .patient-theme nav button {
+        color: #cedcd1 !important; /* sage-200 */
+      }
+      .dark .patient-theme aside button.bg-blue-500,
+      .dark .patient-theme aside button.bg-blue-600,
+      .dark .patient-theme nav button.bg-blue-500,
+      .dark .patient-theme nav button.bg-blue-600 {
+        color: #ffffff !important;
+      }
+      .dark .patient-theme nav button:hover,
+      .dark .patient-theme .hover\:bg-gray-700:hover {
+        background-color: #2f3b34 !important; /* sage-800 */
+        color: #f4f7f5 !important;
+      }
+      /* Prevent hover issues on active items in dark mode */
+      .dark .patient-theme nav button.bg-blue-500:hover,
+      .dark .patient-theme nav button.bg-blue-600:hover {
+        background-color: #37463d !important; /* sage-800 higher contrast */
+        color: #ffffff !important;
+      }
+      
+      /* New Chat Button (ChatView.tsx) */
+      .patient-theme .border-dashed {
+        border-color: #abc3b2 !important; /* sage-300 */
+        color: var(--patient-primary) !important;
+      }
+      .dark .patient-theme .border-dashed {
+        border-color: #42564a !important; /* sage-700 */
+        color: #f4f7f5 !important; 
+      }
+      .dark .patient-theme .border-dashed:hover {
+        border-color: #668671 !important; /* sage-500 */
+        background-color: rgba(80, 106, 90, 0.2) !important;
+      }
+
+      /* Buttons and Accents */
+      .patient-theme .bg-indigo-600 { background-color: var(--patient-secondary) !important; }
+      .patient-theme .text-green-600 { color: var(--patient-primary) !important; }
+      .patient-theme .bg-green-50 { background-color: #e5ebe6 !important; }
+      
+      /* Typography rhythm */
+      .patient-theme h2, 
+      .patient-theme .text-gray-900,
+      .patient-theme .text-zinc-900 {
+        letter-spacing: -0.025em;
+        color: #37463d !important; /* sage-800 */
+      }
+      .dark .patient-theme h2,
+      .dark .patient-theme h3,
+      .dark .patient-theme .text-gray-900,
+      .dark .patient-theme .text-zinc-900,
+      .dark .patient-theme .text-white {
+        color: #f4f7f5 !important;
+      }
+
+      /* Custom Scrollbar for Patient Dashboard */
+      .patient-theme *::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+      .patient-theme *::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .patient-theme *::-webkit-scrollbar-thumb {
+        background: #cedcd1; /* sage-200 */
+        border-radius: 10px;
+      }
+      .patient-theme *::-webkit-scrollbar-thumb:hover {
+        background: #abc3b2; /* sage-300 */
+      }
+      .dark .patient-theme *::-webkit-scrollbar-thumb {
+        background: #42564a; /* sage-700 */
+      }
+
+      /* Transitions */
+      .patient-theme .transition-all {
+        transition-duration: 400ms !important;
+      }
+
+      @keyframes slide-in-fade-right {
+        from {
+          opacity: 0.2;
+          transform: translateX(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .animate-message-in-right {
+        animation: slide-in-fade-right 0.3s ease-out forwards;
+      }
+
+      @keyframes slide-in-fade-left {
+        from {
+          opacity: 0.2;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+      .animate-message-in-left {
+        animation: slide-in-fade-left 0.3s ease-out forwards;
+      }
+      /* Custom scrollbar for better UI */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.3);
+        border-radius: 10px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: rgba(156, 163, 175, 0.5);
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: rgba(75, 85, 99, 0.4);
+      }
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: rgba(75, 85, 99, 0.6);
+      }
+      /* Hide scrollbar utility */
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+    </style>
+  <script type="importmap">
+{
+  "imports": {
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.21.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "recharts": "https://aistudiocdn.com/recharts@^3.2.1"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-gray-100 dark:bg-gray-900">
+    <div id="root"></div>
+    <script type="module" src="/index.tsx"></script>
+  </body>
+</html>
