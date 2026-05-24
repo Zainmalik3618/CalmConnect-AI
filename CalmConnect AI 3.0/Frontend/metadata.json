@@ -1,0 +1,7 @@
+{
+  "name": "CalmConnect AI 3.0",
+  "description": "A full-stack mental health application featuring an AI companion, wellness toolkit (mood tracking, journaling, CBT), and role-based access for patients, psychiatrists, and admins. Enables secure messaging and appointment scheduling to support users on their wellness journey.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
