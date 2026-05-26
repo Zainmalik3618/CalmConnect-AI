@@ -86,14 +86,6 @@ const initDb = async () => {
             SELECT 'Mental health is not a destination, but a process.', 'Noam Shpancer', 'wellness'
             WHERE NOT EXISTS (SELECT 1 FROM daily_quotes WHERE text = 'Mental health is not a destination, but a process.');
 
-            INSERT INTO daily_quotes (text, author, category)
-            SELECT 'You don't have to be positive all the time. It's okay to feel sad, angry, annoyed, frustrated, scared and anxious.', 'Lori Deschene', 'validation'
-            WHERE NOT EXISTS (SELECT 1 FROM daily_quotes WHERE text = 'You don't have to be positive all the time. It's okay to feel sad, angry, annoyed, frustrated, scared and anxious.');
-
-            INSERT INTO daily_quotes (text, author, category)
-            SELECT 'Happiness can be found even in the darkest of times, if one only remembers to turn on the light.', 'Albus Dumbledore', 'hope'
-            WHERE NOT EXISTS (SELECT 1 FROM daily_quotes WHERE text = 'Happiness can be found even in the darkest of times, if one only remembers to turn on the light.');
-
             -- Update users table with new profile fields
             ALTER TABLE users ADD COLUMN IF NOT EXISTS age INTEGER;
             ALTER TABLE users ADD COLUMN IF NOT EXISTS emergency_contact TEXT;
