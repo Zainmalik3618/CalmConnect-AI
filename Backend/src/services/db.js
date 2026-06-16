@@ -4,7 +4,6 @@ require('dotenv').config();
 
 const pool = new pg.Pool({
   connectionString: process.env.DATABASE_URL,
-  options: '-c search_path=calmconnect,public',
 });
 
 pool.on('connect', () => {

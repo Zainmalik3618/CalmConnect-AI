@@ -125,7 +125,7 @@ const initDb = async () => {
         `);
         console.log('Motivation and standard tables initialized/updated');
     } catch (err) {
-        console.error('Error initializing database:', err);
+        console.error('Error initializing database:', err.message);
     }
 };
 
