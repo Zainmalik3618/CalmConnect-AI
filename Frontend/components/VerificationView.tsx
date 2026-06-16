@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { LogoIcon, SpinnerIcon, CheckCircleIcon, WarningIcon, MoonIcon, SunIcon, ShieldCheckIcon } from './Icons';
 import type { Theme } from '../hooks/useTheme';
-
-const API_URL = 'http://localhost:3001/api';
+import { API_URL } from '../config/api';
 
 type VerificationStatus = 'verifying' | 'success' | 'error';
 

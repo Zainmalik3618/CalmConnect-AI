@@ -8,8 +8,7 @@ import { calculatePasswordStrength } from '../utils/password';
 import { validateEmail, validateUsername } from '../utils/validation';
 import PasswordRequirements from './PasswordRequirements';
 import type { Theme } from '../hooks/useTheme';
-
-const API_URL = 'http://localhost:3001/api';
+import { API_URL } from '../config/api';
 
 interface AuthViewProps {
   onAuthSuccess: (data: { token: string; refreshToken?: string; user: User }, isNewUser: boolean) => void;

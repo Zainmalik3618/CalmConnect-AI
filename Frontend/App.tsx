@@ -12,9 +12,8 @@ import type { User, Conversation, Appointment, ChatSession, MoodEntry, JournalEn
 import ResetPasswordView from './components/ResetPasswordView';
 // FIX: Added import for the new VerificationView component.
 import VerificationView from './components/VerificationView';
+import { API_URL } from './config/api';
 
-
-const API_URL = 'http://localhost:3001/api';
 
 const App: React.FC = () => {
   const [theme, toggleTheme, isThemeLoading] = useTheme();

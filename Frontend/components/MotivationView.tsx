@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Flame, Award, Quote, Trophy, TrendingUp, Calendar, Zap, Brain, Smile, Book } from 'lucide-react';
 import axios from 'axios';
+import { API_URL } from '../config/api';
 
 interface StreakData {
     current_streak: number;
@@ -54,7 +55,7 @@ const MotivationView: React.FC<MotivationViewProps> = ({ apiFetch }) => {
                 } else {
                     // Fallback for isolated testing/dev
                     const token = localStorage.getItem('token');
-                    const response = await axios.get('http://localhost:3001/api/motivation/dashboard', {
+                    const response = await axios.get(`${API_URL}/motivation/dashboard`, {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     setStats(response.data.stats);

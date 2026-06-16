@@ -5,8 +5,7 @@ import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import { calculatePasswordStrength } from '../utils/password';
 import PasswordRequirements from './PasswordRequirements';
 import type { Theme } from '../hooks/useTheme';
-
-const API_URL = 'http://localhost:3001/api';
+import { API_URL } from '../config/api';
 
 interface ResetPasswordViewProps {
   theme: Theme;
