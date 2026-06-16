@@ -1,0 +1,23 @@
+<svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="leafGradientSage" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="#A3B18A" />
+        <stop offset="100%" stop-color="#849868" />
+    </linearGradient>
+    <linearGradient id="leafGradientBlue" x1="1" y1="1" x2="0" y2="0">
+        <stop offset="0%" stop-color="#A8DADC" />
+        <stop offset="100%" stop-color="#81C6C8" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M50 95 C 10 70, 20 30, 50 5 C 80 30, 90 70, 50 95 Z"
+    fill="url(#leafGradientSage)"
+    transform="rotate(-15 50 50) translate(-10, 0)"
+  />
+  <path
+    d="M50 95 C 10 70, 20 30, 50 5 C 80 30, 90 70, 50 95 Z"
+    fill="url(#leafGradientBlue)"
+    transform="rotate(15 50 50) translate(10, -5)"
+    opacity="0.85"
+  />
+</svg>

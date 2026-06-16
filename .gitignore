@@ -1,0 +1,131 @@
+# =========================
+
+# Logs
+
+# =========================
+
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# =========================
+
+# Dependencies
+
+# =========================
+
+Frontend/node_modules
+Backend/node_modules
+node_modules
+
+# =========================
+
+# Build Output
+
+# =========================
+
+Frontend/dist
+Backend/dist
+dist
+dist-ssr
+build
+coverage
+
+# =========================
+
+# Environment Variables
+
+# =========================
+
+.env
+.env.*
+*.env
+*.local
+
+Frontend/.env
+Frontend/.env.*
+Frontend/.env.local
+
+Backend/.env
+Backend/.env.*
+Backend/.env.local
+
+# =========================
+
+# Vite
+
+# =========================
+
+vite.config.ts.timestamp-*
+vite.config.js.timestamp-*
+
+# =========================
+
+# IDE / Editor Files
+
+# =========================
+
+.vscode/*
+!.vscode/extensions.json
+
+.idea
+.DS_Store
+Thumbs.db
+
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.swp
+
+# =========================
+
+# OS Generated Files
+
+# =========================
+
+Desktop.ini
+
+# =========================
+
+# Runtime / Cache
+
+# =========================
+
+.cache
+.temp
+tmp
+*.pid
+*.seed
+
+# =========================
+
+# TypeScript
+
+# =========================
+
+*.tsbuildinfo
+
+# =========================
+
+# Testing
+
+# =========================
+
+coverage/
+.nyc_output/
+
+# =========================
+
+# Optional
+
+# =========================
+
+.vercel
+.netlify
+.firebase
