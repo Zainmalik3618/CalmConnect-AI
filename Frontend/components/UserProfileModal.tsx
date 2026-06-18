@@ -1,5 +1,6 @@
 
 import React, { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import type { User } from '../types';
 import { AwardIcon, BookOpenIcon, CognitiveDistortionsIcon, FlameIcon, SparklesIcon, SmileIcon, XIcon, ZapIcon } from './Icons';
@@ -12,11 +13,17 @@ interface UserProfileModalProps {
 const UserProfileModal: React.FC<UserProfileModalProps> = ({ user, onClose }) => {
   useEffect(() => {
     if (user) {
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Escape') onClose();
       };
       window.addEventListener('keydown', handleKeyDown);
-      return () => window.removeEventListener('keydown', handleKeyDown);
+      return () => {
+        window.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = previousOverflow;
+      };
     }
   }, [user, onClose]);
 
@@ -60,37 +67,45 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ user, onClose }) =>
     </div>
   );
 
-  return (
+  const portalTarget = document.querySelector('.role-theme') ?? document.body;
+
+  return createPortal(
     <AnimatePresence>
       <motion.div 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/80 backdrop-blur-sm"
+        className="fixed inset-0 z-[9999] flex items-center justify-center overflow-y-auto bg-slate-950/65 p-3 backdrop-blur-sm sm:p-6"
         onClick={(e) => e.target === e.currentTarget && onClose()}
         role="dialog"
         aria-modal="true"
+        aria-labelledby="user-profile-title"
       >
         <motion.div 
-          initial={{ scale: 0.9, opacity: 0, y: 20 }}
+          initial={{ scale: 0.96, opacity: 0, y: 16 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.9, opacity: 0, y: 20 }}
+          exit={{ scale: 0.96, opacity: 0, y: 16 }}
           transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white dark:bg-gray-900 rounded-xl shadow-2xl w-full max-w-md flex flex-col overflow-hidden max-h-[90vh] border border-white/10"
+          className="flex max-h-[calc(100dvh-1.5rem)] w-full max-w-lg flex-col overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-2xl shadow-slate-950/25 dark:border-gray-700 dark:bg-gray-900 sm:max-h-[calc(100dvh-3rem)]"
         >
           {/* Header Section */}
-          <div className="relative h-40 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 flex-shrink-0">
+          <div
+            className="relative h-28 flex-shrink-0"
+            style={{ background: 'linear-gradient(135deg, var(--role-primary, #2563eb), var(--role-accent, #0ea5e9))' }}
+          >
             <button 
+              type="button"
               onClick={onClose}
-              className="absolute top-6 right-6 text-white/80 hover:text-white hover:bg-white/10 focus:outline-none rounded-full p-2 transition-all z-30 backdrop-blur-md border border-white/10"
+              aria-label="Close profile"
+              className="absolute right-4 top-4 z-30 rounded-xl border border-white/20 bg-white/10 p-2 text-white/90 shadow-sm backdrop-blur-md hover:bg-white/20 hover:text-white focus:outline-none focus:ring-2 focus:ring-white/70"
             >
               <XIcon className="h-5 w-5" />
             </button>
             
             {/* Avatar Overlap */}
-            <div className="absolute -bottom-10 left-8">
-              <div className="relative flex items-center justify-center w-24 h-24 bg-white dark:bg-gray-900 rounded-xl shadow-2xl border-4 border-white dark:border-gray-900 overflow-hidden">
-                <span className="text-5xl font-semibold text-transparent bg-clip-text bg-gradient-to-br from-blue-600 to-indigo-600 select-none leading-none">
+            <div className="absolute -bottom-8 left-6 sm:left-8">
+              <div className="relative flex h-20 w-20 items-center justify-center overflow-hidden rounded-2xl border-4 border-white bg-white shadow-lg dark:border-gray-900 dark:bg-gray-900">
+                <span className="select-none text-4xl font-bold leading-none text-blue-600">
                   {user.username.charAt(0).toUpperCase()}
                 </span>
               </div>
@@ -98,17 +113,17 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ user, onClose }) =>
           </div>
           
           {/* Content Area */}
-          <div className="flex-1 overflow-y-auto no-scrollbar px-8 pt-14 pb-8">
-            <div className="mb-8">
-              <h2 className="text-3xl font-semibold text-gray-900 dark:text-white mb-2">
+          <div className="no-scrollbar flex-1 overflow-y-auto px-6 pb-6 pt-12 sm:px-8 sm:pb-8">
+            <div className="mb-6">
+              <h2 id="user-profile-title" className="mb-2 break-words text-2xl font-bold text-gray-900 dark:text-white">
                 {user.username}
               </h2>
-              <div className={`inline-flex items-center px-3 py-1 rounded-lg text-xs font-semibold uppercase tracking-wide shadow-sm ${getRoleBadgeColor(user.role)}`}>
+              <div className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-bold uppercase tracking-wide ${getRoleBadgeColor(user.role)}`}>
                 {user.role}
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <InfoTile label="Email Address" value={user.email} fullWidth />
               
               <div className="surface-motion col-span-2 p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700/50">
@@ -207,17 +222,19 @@ const UserProfileModal: React.FC<UserProfileModalProps> = ({ user, onClose }) =>
           </div>
 
           {/* Footer */}
-          <div className="p-8 bg-gray-50 dark:bg-gray-800/30 border-t border-gray-100 dark:border-gray-800 flex-shrink-0">
+          <div className="flex-shrink-0 border-t border-gray-200 bg-gray-50 px-6 py-5 dark:border-gray-700 dark:bg-gray-800/50 sm:px-8">
             <button 
+              type="button"
               onClick={onClose}
-              className="w-full py-4 bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold rounded-lg hover:shadow-xl transition-all duration-200 ease-out shadow-lg shadow-gray-200 dark:shadow-none uppercase tracking-wide text-xs"
+              className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-blue-500/20 hover:bg-blue-700 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 dark:focus:ring-offset-gray-900"
             >
               Close Profile
             </button>
           </div>
         </motion.div>
       </motion.div>
-    </AnimatePresence>
+    </AnimatePresence>,
+    portalTarget
   );
 };
 
