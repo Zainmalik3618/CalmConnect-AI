@@ -1,6 +1,6 @@
-# CalmConnect AI 3.0
+# CalmConnect AI
 
-CalmConnect AI 3.0 is a full-stack mental health and wellness platform that combines AI-supported self-care, mood and journal tracking, CBT tools, appointment management, direct messaging, community support, and administrator controls.
+CalmConnect AI is a full-stack mental health and wellness platform that combines AI-supported self-care, mood and journal tracking, CBT tools, appointment management, direct messaging, community support, and administrator controls.
 
 The repository is organized as two separate workspaces:
 
@@ -66,7 +66,7 @@ The repository is organized as two separate workspaces:
 ## Current Directory Structure
 
 ```text
-CalmConnect AI 3.0/
+CalmConnect AI/
 |-- README.md
 |-- .gitignore
 |-- Backend/
@@ -171,7 +171,7 @@ CalmConnect AI 3.0/
 Open a terminal in the backend workspace:
 
 ```bash
-cd "CalmConnect AI 3.0/Backend"
+cd "CalmConnect AI/Backend"
 npm install
 ```
 
@@ -214,7 +214,7 @@ The backend calls `src/services/initDb.js` on startup to initialize required dat
 Open a second terminal in the frontend workspace:
 
 ```bash
-cd "CalmConnect AI 3.0/Frontend"
+cd "CalmConnect AI/Frontend"
 npm install
 ```
 
