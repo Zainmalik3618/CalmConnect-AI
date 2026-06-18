@@ -11,6 +11,7 @@ import ActivityLogView from '../admin/ActivityLogView';
 import AppointmentsView from '../appointments/AppointmentsView';
 import NotificationsView from '../NotificationsView';
 import FeedbackDashboard from '../admin/FeedbackDashboard';
+import AdminOverview from '../admin/AdminOverview';
 
 interface AdminDashboardProps {
   currentUser: User;
@@ -82,9 +83,20 @@ const AdminDashboard: React.FC<AdminDashboardProps> = ({ currentUser, users, onL
         );
       case 'feedback-dashboard':
         return <FeedbackDashboard apiFetch={apiFetch} />;
+      case 'user-management':
+        return <UserManagementView currentUser={currentUser} users={users} onUpdateUsers={onUpdateUsers} apiFetch={apiFetch} />;
       case 'admin-home':
       default:
-        return <UserManagementView currentUser={currentUser} users={users} onUpdateUsers={onUpdateUsers} apiFetch={apiFetch} />;
+        return (
+          <AdminOverview
+            currentUser={currentUser}
+            users={users}
+            appointments={appointments}
+            conversations={conversations}
+            notifications={notifications}
+            setCurrentView={setCurrentView}
+          />
+        );
     }
   };
 

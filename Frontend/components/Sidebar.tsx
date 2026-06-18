@@ -60,7 +60,9 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, currentU
         { id: 'mood', name: 'Mood Tracker', icon: <ChartBarIcon />, roles: ['patient'] },
         { id: 'journal', name: 'Journal', icon: <BookOpenIcon />, roles: ['patient'] },
         { id: 'cbt', name: 'CBT Exercises', icon: <ChecklistIcon />, roles: ['patient'] },
-        { id: 'admin-home', name: 'User Management', icon: <CogIcon />, roles: ['admin'] },
+        { id: 'psychiatrist-home', name: 'Clinical Overview', icon: <ChartBarIcon />, roles: ['psychiatrist'] },
+        { id: 'admin-home', name: 'Overview', icon: <ChartBarIcon />, roles: ['admin'] },
+        { id: 'user-management', name: 'User Management', icon: <CogIcon />, roles: ['admin'] },
         { id: 'feedback-dashboard', name: 'Feedback & Reports', icon: <StarIcon />, roles: ['admin'] },
         { id: 'activity-logs', name: 'Activity Logs', icon: <ClockIcon />, roles: ['admin'] },
         

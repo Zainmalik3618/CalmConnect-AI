@@ -7,6 +7,7 @@ import AppointmentsView from '../appointments/AppointmentsView';
 import NotificationsView from '../NotificationsView';
 import ForumView from '../ForumView';
 import type { Theme } from '../../hooks/useTheme';
+import PsychiatristOverview from './PsychiatristOverview';
 
 interface PsychiatristDashboardProps {
   currentUser: User;
@@ -45,7 +46,7 @@ const PsychiatristDashboard: React.FC<PsychiatristDashboardProps> = ({
     unreadNotificationsCount,
     apiFetch
 }) => {
-  const [currentView, setCurrentView] = useState<View>('appointments');
+  const [currentView, setCurrentView] = useState<View>('psychiatrist-home');
 
   const renderView = () => {
     switch (currentView) {
@@ -55,6 +56,18 @@ const PsychiatristDashboard: React.FC<PsychiatristDashboardProps> = ({
         return <ForumView currentUser={currentUser} apiFetch={apiFetch} />;
       case 'appointments':
         return <AppointmentsView currentUser={currentUser} users={users} appointments={appointments} setAppointments={setAppointments} conversations={conversations} apiFetch={apiFetch} />;
+      case 'psychiatrist-home':
+        return (
+          <PsychiatristOverview
+            currentUser={currentUser}
+            users={users}
+            appointments={appointments}
+            conversations={conversations}
+            notifications={notifications}
+            totalUnreadCount={totalUnreadCount}
+            setCurrentView={setCurrentView}
+          />
+        );
       case 'notifications':
         return (
           <NotificationsView
