@@ -115,47 +115,86 @@ CalmConnect AI/
 |           |-- initDb.js
 |           `-- motivationService.js
 `-- Frontend/
-    |-- package.json
-    |-- package-lock.json
-    |-- index.html
-    |-- index.tsx
     |-- App.tsx
-    |-- types.ts
-    |-- vite.config.ts
-    |-- tsconfig.json
-    |-- metadata.json
-    |-- public/
-    |   `-- logo.svg
     |-- components/
     |   |-- admin/
+    |   |   |-- ActivityLogView.tsx
+    |   |   |-- AddPsychiatristModal.tsx
+    |   |   |-- AdminOverview.tsx
+    |   |   |-- FeedbackDashboard.tsx
+    |   |   `-- UserManagementView.tsx
     |   |-- appointments/
+    |   |   |-- AddAppointmentModal.tsx
+    |   |   `-- AppointmentsView.tsx
     |   |-- dashboards/
+    |   |   |-- AdminDashboard.tsx
+    |   |   |-- PatientDashboard.tsx
+    |   |   |-- PatientOverview.tsx
+    |   |   |-- PsychiatristDashboard.tsx
+    |   |   `-- PsychiatristOverview.tsx
+    |   |-- AboutView.tsx
     |   |-- AuthView.tsx
     |   |-- CbtView.tsx
     |   |-- ChatView.tsx
+    |   |-- ConfirmationDialog.tsx
+    |   |-- ContactView.tsx
+    |   |-- DashboardHeader.tsx
     |   |-- EmergencyBanner.tsx
+    |   |-- ExercisePlayer.tsx
+    |   |-- FeedbackForm.tsx
     |   |-- ForumView.tsx
     |   |-- GuidedExercisesView.tsx
+    |   |-- Icons.tsx
     |   |-- JournalView.tsx
     |   |-- Layout.tsx
     |   |-- MessagingView.tsx
+    |   |-- MoodChart.tsx
     |   |-- MoodTrackerView.tsx
+    |   |-- MotivationView.tsx
     |   |-- NotificationsView.tsx
     |   |-- OnboardingView.tsx
+    |   |-- PasswordRequirements.tsx
+    |   |-- PasswordStrengthIndicator.tsx
     |   |-- ProfileView.tsx
+    |   |-- PublicAuthLayout.tsx
+    |   |-- PublicFooter.tsx
+    |   |-- PublicHeader.tsx
+    |   |-- ReportIssueModal.tsx
     |   |-- ResetPasswordView.tsx
     |   |-- Sidebar.tsx
+    |   |-- Skeleton.tsx
     |   |-- ThemeToggle.tsx
+    |   |-- ThoughtRecordForm.tsx
+    |   |-- ThoughtRecordsManager.tsx
+    |   |-- UserProfileModal.tsx
     |   `-- VerificationView.tsx
+    |-- config/
+    |   `-- api.ts
     |-- data/
     |   |-- exercises.ts
     |   `-- seed.ts
     |-- hooks/
     |   |-- useLocalStorage.ts
     |   `-- useTheme.ts
-    `-- utils/
-        |-- password.ts
-        `-- validation.ts
+    |-- public/
+    |   |-- logo.svg
+    |   |-- signin.jpg
+    |   |-- signin.png
+    |   |-- signup.jpg
+    |   `-- signup.png
+    |-- utils/
+    |   |-- password.ts
+    |   `-- validation.ts
+    |-- index.html
+    |-- index.tsx
+    |-- metadata.json
+    |-- package.json
+    |-- package-lock.json
+    |-- tsconfig.json
+    |-- types.ts
+    |-- vercel.json
+    |-- vite.config.ts
+    `-- vite-env.d.ts
 ```
 
 ## Prerequisites
