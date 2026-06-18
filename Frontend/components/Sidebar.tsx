@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { MessageSquare } from 'lucide-react';
+import { Home, MessageSquare } from 'lucide-react';
 import { ChatIcon, ChartBarIcon, BookOpenIcon, LogoIcon, ChecklistIcon, LogoutIcon, UserIcon, UsersIcon, ChevronLeftIcon, CogIcon, CalendarIcon, ClockIcon, BellIcon, AlertCircleIcon, StarIcon } from './Icons';
 import type { User, View } from '../types';
 import type { Theme } from '../hooks/useTheme';
@@ -55,6 +55,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, currentU
 
     const navItemConfig = [
         // Group 1: Core Tools
+        { id: 'patient-home', name: 'Wellness Home', icon: <Home className="h-6 w-6 min-w-5 flex-shrink-0" />, roles: ['patient'] },
         { id: 'chat', name: 'AI Chat', icon: <ChatIcon />, roles: ['patient'] },
         { id: 'motivation', name: 'Motivation Center', icon: <StarIcon />, roles: ['patient'] },
         { id: 'mood', name: 'Mood Tracker', icon: <ChartBarIcon />, roles: ['patient'] },

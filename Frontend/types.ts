@@ -86,7 +86,7 @@ export interface User {
   earnedBadges?: Badge[];
 }
 
-export type View = 'chat' | 'mood' | 'journal' | 'cbt' | 'profile' | 'messaging' | 'psychiatrist-home' | 'admin-home' | 'user-management' | 'appointments' | 'activity-logs' | 'notifications' | 'feedback-dashboard' | 'motivation' | 'forum';
+export type View = 'patient-home' | 'chat' | 'mood' | 'journal' | 'cbt' | 'profile' | 'messaging' | 'psychiatrist-home' | 'admin-home' | 'user-management' | 'appointments' | 'activity-logs' | 'notifications' | 'feedback-dashboard' | 'motivation' | 'forum';
 
 export interface DirectMessage {
   id: string;

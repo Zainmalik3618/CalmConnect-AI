@@ -16,6 +16,7 @@ import NotificationsView from '../NotificationsView';
 import MotivationView from '../MotivationView';
 import ForumView from '../ForumView';
 import type { Theme } from '../../hooks/useTheme';
+import PatientOverview from './PatientOverview';
 
 interface PatientDashboardProps {
   currentUser: User;
@@ -77,10 +78,25 @@ const PatientDashboard: React.FC<PatientDashboardProps> = ({
     unreadNotificationsCount,
     apiFetch
 }) => {
-  const [currentView, setCurrentView] = useState<View>('chat');
+  const [currentView, setCurrentView] = useState<View>('patient-home');
 
   const renderView = () => {
     switch (currentView) {
+      case 'patient-home':
+        return (
+          <PatientOverview
+            currentUser={currentUser}
+            users={users}
+            appointments={appointments}
+            conversations={conversations}
+            chatSessions={chatSessions}
+            moodHistory={moodHistory}
+            journalEntries={journalEntries}
+            completedLogs={completedLogs}
+            totalUnreadCount={totalUnreadCount}
+            setCurrentView={setCurrentView}
+          />
+        );
       case 'mood':
         // FIX: Pass props to MoodTrackerView.
         return <MoodTrackerView currentUser={currentUser} moodHistory={moodHistory} setMoodHistory={setMoodHistory} apiFetch={apiFetch} isLoading={false} />;
