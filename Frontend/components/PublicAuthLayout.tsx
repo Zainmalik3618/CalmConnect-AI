@@ -31,7 +31,7 @@ const PublicAuthLayout: React.FC<PublicAuthLayoutProps> = ({
   title,
   description,
   imageLabel = 'Connected mental wellness',
-  imageSrc = '/signin.png',
+  imageSrc = '/signin.jpg',
   imageAlt = 'A CalmConnect mental wellness experience',
   imageVariant = 'landscape',
 }) => (
@@ -47,6 +47,9 @@ const PublicAuthLayout: React.FC<PublicAuthLayoutProps> = ({
           <img
             src={imageSrc}
             alt={imageAlt}
+            loading="eager"
+            fetchPriority="high"
+            decoding="async"
             className={`absolute inset-0 h-full w-full object-cover ${
               imageVariant === 'portrait'
                 ? 'object-[center_34%] lg:object-center'

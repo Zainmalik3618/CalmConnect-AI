@@ -197,7 +197,7 @@ const VerificationView: React.FC<VerificationViewProps> = ({ theme, toggleTheme 
       title="Verify your email"
       description="We are checking the secure link attached to your account. This usually takes only a moment."
       imageLabel="Secure account activation"
-      imageSrc="/signin.png"
+      imageSrc="/signin.jpg"
       imageAlt="A CalmConnect user reviewing their private wellness dashboard"
       imageVariant="landscape"
     >

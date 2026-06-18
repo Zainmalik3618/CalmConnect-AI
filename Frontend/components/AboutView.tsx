@@ -48,7 +48,7 @@ const AboutView: React.FC<AboutViewProps> = ({ theme, toggleTheme }) => (
           </div>
         </div>
         <div className="relative min-h-[340px] overflow-hidden bg-[#d8d1c4] lg:min-h-[620px]">
-          <img src="/signup.png" alt="A welcoming conversation between a patient and mental health professional" className="absolute inset-0 h-full w-full object-cover object-[center_38%]" />
+          <img src="/signup.jpg" alt="A welcoming conversation between a patient and mental health professional" loading="eager" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-[center_38%]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#102f2d]/90 via-transparent to-transparent" />
           <p className="absolute inset-x-0 bottom-0 max-w-xl p-7 text-xl font-semibold leading-snug text-white sm:p-10 sm:text-2xl">
             Care works best when thoughtful technology strengthens the human relationship.

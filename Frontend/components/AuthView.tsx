@@ -389,7 +389,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
         viewMode === 'forgot' ? 'Enter your email and we will help you safely regain access.' :
         'Verify your email address to activate your CalmConnect account.'
       }
-      imageSrc={viewMode === 'register' ? '/signup.png' : '/signin.png'}
+      imageSrc={viewMode === 'register' ? '/signup.jpg' : '/signin.jpg'}
       imageAlt={
         viewMode === 'register'
           ? 'A patient beginning a welcoming mental wellness consultation'

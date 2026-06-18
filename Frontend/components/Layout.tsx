@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './Sidebar';
 import type { User, View } from '../types';
 import type { Theme } from '../hooks/useTheme';
+import DashboardHeader from './DashboardHeader';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -25,26 +26,33 @@ const Layout: React.FC<LayoutProps> = ({ children, currentView, setCurrentView, 
   };
 
   return (
-    <div className="app-shell flex flex-1 bg-gray-100 dark:bg-gray-900">
-      <Sidebar 
-        currentView={currentView} 
-        setCurrentView={setCurrentView}
+    <div className="app-shell flex min-h-screen flex-1 flex-col bg-gray-100 dark:bg-gray-900">
+      <DashboardHeader
         currentUser={currentUser}
+        currentView={currentView}
+        setCurrentView={setCurrentView}
         onLogout={onLogout}
         theme={theme}
         toggleTheme={toggleTheme}
-        isCollapsed={isSidebarCollapsed}
-        onToggle={toggleSidebar}
-        totalUnreadCount={totalUnreadCount}
-        unreadAppointmentsCount={unreadAppointmentsCount}
-        unreadNotificationsCount={unreadNotificationsCount}
         apiFetch={apiFetch}
       />
-      <main className="flex-1 flex flex-col overflow-x-auto">
-        <div key={currentView} className="view-transition flex-1 flex flex-col min-w-0">
-          {children}
-        </div>
-      </main>
+      <div className="flex min-h-0 flex-1">
+        <Sidebar
+          currentView={currentView}
+          setCurrentView={setCurrentView}
+          currentUser={currentUser}
+          isCollapsed={isSidebarCollapsed}
+          onToggle={toggleSidebar}
+          totalUnreadCount={totalUnreadCount}
+          unreadAppointmentsCount={unreadAppointmentsCount}
+          unreadNotificationsCount={unreadNotificationsCount}
+        />
+        <main className="flex min-w-0 flex-1 flex-col overflow-x-auto">
+          <div key={currentView} className="view-transition flex min-w-0 flex-1 flex-col">
+            {children}
+          </div>
+        </main>
+      </div>
     </div>
   );
 };

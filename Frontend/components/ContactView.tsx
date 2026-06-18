@@ -24,7 +24,7 @@ const ContactView: React.FC<ContactViewProps> = ({ theme, toggleTheme }) => (
     <main className="relative mx-auto max-w-[1440px] px-4 pb-16 pt-28 sm:px-6 lg:px-8">
       <section className="grid overflow-hidden rounded-[2rem] border border-white/80 bg-white/90 shadow-[0_32px_90px_-42px_rgba(15,56,51,0.45)] backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/90 dark:shadow-black/50 lg:grid-cols-[1.08fr_0.92fr]">
         <div className="relative min-h-[340px] overflow-hidden bg-[#d8d1c4] lg:min-h-[580px]">
-          <img src="/signin.png" alt="A CalmConnect user in a calm wellness workspace" className="absolute inset-0 h-full w-full object-cover object-[48%_center]" />
+          <img src="/signin.jpg" alt="A CalmConnect user in a calm wellness workspace" loading="eager" fetchPriority="high" decoding="async" className="absolute inset-0 h-full w-full object-cover object-[48%_center]" />
           <div className="absolute inset-0 bg-gradient-to-t from-[#102f2d]/90 via-transparent to-transparent" />
           <p className="absolute inset-x-0 bottom-0 max-w-xl p-7 text-xl font-semibold leading-snug text-white sm:p-10 sm:text-2xl">
             Good products begin with listening. I would be glad to hear from you.

@@ -6,6 +6,35 @@
     <link rel="icon" type="image/svg+xml" href="/logo.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CalmConnect AI</title>
+    <script>
+      (() => {
+        const usesSignupImage = window.location.pathname === '/about' || window.location.pathname === '/reset-password';
+        const primaryImage = usesSignupImage ? '/signup.jpg' : '/signin.jpg';
+        const secondaryImage = usesSignupImage ? '/signin.jpg' : '/signup.jpg';
+        const preload = document.createElement('link');
+        preload.rel = 'preload';
+        preload.as = 'image';
+        preload.href = primaryImage;
+        preload.fetchPriority = 'high';
+        document.head.appendChild(preload);
+
+        window.addEventListener('load', () => {
+          const warmAlternateImage = () => {
+            const prefetch = document.createElement('link');
+            prefetch.rel = 'prefetch';
+            prefetch.as = 'image';
+            prefetch.href = secondaryImage;
+            document.head.appendChild(prefetch);
+          };
+
+          if ('requestIdleCallback' in window) {
+            window.requestIdleCallback(warmAlternateImage);
+          } else {
+            window.setTimeout(warmAlternateImage, 500);
+          }
+        }, { once: true });
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700;800&display=swap" rel="stylesheet" />

@@ -81,7 +81,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ theme, toggleThem
       title="Choose a new password"
       description="Create a strong password to protect your private conversations, appointments, journal entries, and wellness data."
       imageLabel="Protected access"
-      imageSrc="/signup.png"
+      imageSrc="/signup.jpg"
       imageAlt="A patient speaking with a supportive mental health professional"
       imageVariant="portrait"
     >
