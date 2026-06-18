@@ -1,11 +1,12 @@
 
 import React, { useState, useEffect } from 'react';
-import { LogoIcon, SpinnerIcon, EyeIcon, EyeSlashIcon, MoonIcon, SunIcon, CheckCircleIcon, ShieldCheckIcon } from './Icons';
+import { SpinnerIcon, EyeIcon, EyeSlashIcon, CheckCircleIcon } from './Icons';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import { calculatePasswordStrength } from '../utils/password';
 import PasswordRequirements from './PasswordRequirements';
 import type { Theme } from '../hooks/useTheme';
 import { API_URL } from '../config/api';
+import PublicAuthLayout from './PublicAuthLayout';
 
 interface ResetPasswordViewProps {
   theme: Theme;
@@ -73,70 +74,17 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ theme, toggleThem
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="fixed inset-0 min-h-screen bg-[radial-gradient(ellipse_70%_55%_at_15%_15%,rgba(37,99,235,0.16),transparent_62%),radial-gradient(ellipse_65%_55%_at_88%_22%,rgba(14,165,233,0.14),transparent_64%),linear-gradient(135deg,#f8fafc_0%,#eef6ff_48%,#f8fafc_100%)] dark:bg-[radial-gradient(ellipse_70%_55%_at_15%_15%,rgba(59,130,246,0.2),transparent_62%),radial-gradient(ellipse_65%_55%_at_88%_22%,rgba(45,212,191,0.14),transparent_64%),linear-gradient(135deg,#020617_0%,#0f172a_52%,#020617_100%)]" />
-      <div className="relative grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
-        <section className="hidden lg:flex flex-col justify-between p-10 xl:p-14">
-          <div className="flex items-center gap-3">
-            <LogoIcon />
-            <div>
-              <p className="text-lg font-semibold text-slate-950 dark:text-white">CalmConnect AI</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">Secure account recovery</p>
-            </div>
-          </div>
-
-          <div className="max-w-2xl space-y-8">
-            <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-white/70 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur dark:border-blue-900/50 dark:bg-slate-900/60 dark:text-blue-300">
-              <ShieldCheckIcon className="h-4 w-4" />
-              Protected password reset
-            </div>
-            <div className="space-y-5">
-              <h1 className="text-5xl font-semibold leading-tight text-slate-950 dark:text-white xl:text-6xl">
-                Create a strong password and get safely back in.
-              </h1>
-              <p className="max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                Your new password helps protect private conversations, appointments, journal entries, and wellness data.
-              </p>
-            </div>
-            <div className="grid max-w-xl grid-cols-3 gap-3">
-              {['Private data', 'Secure access', 'Care continuity'].map(item => (
-                <div key={item} className="surface-motion rounded-xl border border-white/70 bg-white/75 p-4 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-200">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <p className="text-sm text-slate-500 dark:text-slate-500">Use a password you do not use anywhere else.</p>
-        </section>
-
-        <main className="flex min-h-screen items-center justify-center p-4 sm:p-6 lg:p-10">
-          <div className="w-full max-w-md">
-            <div className="mb-5 flex items-center justify-between lg:justify-end">
-              <div className="flex items-center gap-3 lg:hidden">
-                <LogoIcon />
-                <span className="font-semibold text-slate-950 dark:text-white">CalmConnect AI</span>
-              </div>
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-600 shadow-sm backdrop-blur hover:bg-white hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-blue-300"
-                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                title={theme === 'light' ? 'Dark mode' : 'Light mode'}
-              >
-                {theme === 'light' ? <MoonIcon /> : <SunIcon />}
-              </button>
-            </div>
-
-            <div className="surface-motion rounded-2xl border border-white/70 bg-white/85 p-6 shadow-2xl shadow-slate-200/70 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-900/85 dark:shadow-black/30 sm:p-8">
-              <div className="mb-7 space-y-2">
-                <p className="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">Account recovery</p>
-                <h2 className="text-3xl font-semibold text-slate-950 dark:text-white">Reset your password</h2>
-                <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">
-                  Choose a new password that meets the security requirements below.
-                </p>
-              </div>
-
+    <PublicAuthLayout
+      theme={theme}
+      toggleTheme={toggleTheme}
+      eyebrow="Secure account recovery"
+      title="Choose a new password"
+      description="Create a strong password to protect your private conversations, appointments, journal entries, and wellness data."
+      imageLabel="Protected access"
+      imageSrc="/signup.png"
+      imageAlt="A patient speaking with a supportive mental health professional"
+      imageVariant="portrait"
+    >
               {error && (
                 <p role="alert" className="mb-5 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700 dark:border-red-900/50 dark:bg-red-950/30 dark:text-red-300">
                   {error}
@@ -226,11 +174,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ theme, toggleThem
                   </button>
                 </form>
               )}
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
+    </PublicAuthLayout>
   );
 };
 

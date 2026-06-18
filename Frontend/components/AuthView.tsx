@@ -2,13 +2,14 @@
 
 import React, { useState } from 'react';
 import type { User } from '../types';
-import { LogoIcon, SpinnerIcon, EyeIcon, EyeSlashIcon, MoonIcon, SunIcon, CheckCircleIcon } from './Icons';
+import { SpinnerIcon, EyeIcon, EyeSlashIcon, CheckCircleIcon } from './Icons';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import { calculatePasswordStrength } from '../utils/password';
 import { validateEmail, validateUsername } from '../utils/validation';
 import PasswordRequirements from './PasswordRequirements';
 import type { Theme } from '../hooks/useTheme';
 import { API_URL } from '../config/api';
+import PublicAuthLayout from './PublicAuthLayout';
 
 interface AuthViewProps {
   onAuthSuccess: (data: { token: string; refreshToken?: string; user: User }, isNewUser: boolean) => void;
@@ -364,100 +365,46 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
                 {formMessage && <p role="status" className="text-green-500 text-sm text-center pt-2">{formMessage}</p>}
             </div>
         )}
-        <p className="text-sm text-center text-slate-600 dark:text-slate-400">
-          {isLoginView ? "Don't have an account?" : 'Already have an account?'}
-          <button onClick={() => handleToggleView(isLoginView ? 'register' : 'login')} className="ml-1 font-semibold text-blue-600 hover:text-blue-500 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-gray-800 rounded-sm" disabled={isLoading}>
-            {isLoginView ? 'Sign up' : 'Sign in'}
-          </button>
-        </p>
       </div>
     );
   };
 
   return (
-    <div className="relative min-h-screen overflow-x-hidden bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100">
-      <div className="fixed inset-0 min-h-screen bg-[radial-gradient(ellipse_70%_55%_at_15%_15%,rgba(37,99,235,0.16),transparent_62%),radial-gradient(ellipse_65%_55%_at_88%_22%,rgba(14,165,233,0.14),transparent_64%),linear-gradient(135deg,#f8fafc_0%,#eef6ff_48%,#f8fafc_100%)] dark:bg-[radial-gradient(ellipse_70%_55%_at_15%_15%,rgba(59,130,246,0.2),transparent_62%),radial-gradient(ellipse_65%_55%_at_88%_22%,rgba(45,212,191,0.14),transparent_64%),linear-gradient(135deg,#020617_0%,#0f172a_52%,#020617_100%)]" />
-      <div className="relative grid min-h-screen lg:grid-cols-[1.05fr_0.95fr]">
-        <section className="hidden lg:flex flex-col justify-between p-10 xl:p-14">
-          <div className="flex items-center gap-3">
-            <LogoIcon />
-            <div>
-              <p className="text-lg font-semibold text-slate-950 dark:text-white">CalmConnect AI</p>
-              <p className="text-sm text-slate-500 dark:text-slate-400">Clinical support, connected care</p>
-            </div>
-          </div>
-
-          <div className="max-w-2xl space-y-8">
-            <div className="inline-flex items-center rounded-full border border-blue-200 bg-white/70 px-4 py-2 text-sm font-semibold text-blue-700 shadow-sm backdrop-blur dark:border-blue-900/50 dark:bg-slate-900/60 dark:text-blue-300">
-              Secure mental wellness workspace
-            </div>
-            <div className="space-y-5">
-              <h1 className="text-5xl font-semibold leading-tight text-slate-950 dark:text-white xl:text-6xl">
-                Care tools that feel calm, clear, and human.
-              </h1>
-              <p className="max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                Sign in to continue with private conversations, mood insights, appointments, and coordinated support across patients and professionals.
-              </p>
-            </div>
-            <div className="grid max-w-xl grid-cols-3 gap-3">
-              {['AI support', 'Mood tracking', 'Care coordination'].map(item => (
-                <div key={item} className="surface-motion rounded-xl border border-white/70 bg-white/75 p-4 text-sm font-semibold text-slate-700 shadow-sm backdrop-blur dark:border-slate-800 dark:bg-slate-900/70 dark:text-slate-200">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <p className="text-sm text-slate-500 dark:text-slate-500">Built for thoughtful mental health workflows.</p>
-        </section>
-
-        <main className="flex min-h-screen items-center justify-center p-4 sm:p-6 lg:p-10">
-          <div className="w-full max-w-md">
-            <div className="mb-5 flex items-center justify-between lg:justify-end">
-              <div className="flex items-center gap-3 lg:hidden">
-                <LogoIcon />
-                <span className="font-semibold text-slate-950 dark:text-white">CalmConnect AI</span>
-              </div>
-              <button
-                type="button"
-                onClick={toggleTheme}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-slate-200 bg-white/80 text-slate-600 shadow-sm backdrop-blur hover:bg-white hover:text-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-slate-800 dark:bg-slate-900/80 dark:text-slate-300 dark:hover:bg-slate-900 dark:hover:text-blue-300"
-                aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-                title={theme === 'light' ? 'Dark mode' : 'Light mode'}
-              >
-                {theme === 'light' ? <MoonIcon /> : <SunIcon />}
-              </button>
-            </div>
-
-            <div className="surface-motion rounded-2xl border border-white/70 bg-white/85 p-6 shadow-2xl shadow-slate-200/70 backdrop-blur-xl dark:border-slate-800/80 dark:bg-slate-900/85 dark:shadow-black/30 sm:p-8">
-              <div className="mb-7 space-y-2">
-                <p className="text-sm font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">
-                  {viewMode === 'login' && 'Welcome back'}
-                  {viewMode === 'register' && 'Start your account'}
-                  {viewMode === 'forgot' && 'Account recovery'}
-                  {viewMode === 'verify' && 'Almost there'}
-                </p>
-                <h2 className="text-3xl font-semibold text-slate-950 dark:text-white">
-                  {viewMode === 'login' && 'Sign in to CalmConnect'}
-                  {viewMode === 'register' && 'Create your CalmConnect account'}
-                  {viewMode === 'forgot' && 'Reset your password'}
-                  {viewMode === 'verify' && 'Check your inbox'}
-                </h2>
-                <p className="text-sm leading-6 text-slate-500 dark:text-slate-400">
-                  {viewMode === 'login' && 'Access your care dashboard, conversations, and wellness tools.'}
-                  {viewMode === 'register' && 'Create a secure patient account and begin your wellness journey.'}
-                  {viewMode === 'forgot' && 'We will help you get safely back into your account.'}
-                  {viewMode === 'verify' && 'One final step before your account is activated.'}
-                </p>
-              </div>
-
+    <PublicAuthLayout
+      theme={theme}
+      toggleTheme={toggleTheme}
+      eyebrow={
+        viewMode === 'login' ? 'Welcome back' :
+        viewMode === 'register' ? 'Begin your journey' :
+        viewMode === 'forgot' ? 'Account recovery' : 'Almost there'
+      }
+      title={
+        viewMode === 'login' ? 'Sign in to CalmConnect' :
+        viewMode === 'register' ? 'Create your account' :
+        viewMode === 'forgot' ? 'Reset your password' : 'Check your inbox'
+      }
+      description={
+        viewMode === 'login' ? 'Continue to your private care dashboard, conversations, and wellness tools.' :
+        viewMode === 'register' ? 'Create a secure patient account and keep your wellbeing tools in one calm place.' :
+        viewMode === 'forgot' ? 'Enter your email and we will help you safely regain access.' :
+        'Verify your email address to activate your CalmConnect account.'
+      }
+      imageSrc={viewMode === 'register' ? '/signup.png' : '/signin.png'}
+      imageAlt={
+        viewMode === 'register'
+          ? 'A patient beginning a welcoming mental wellness consultation'
+          : 'A CalmConnect user reviewing their wellness progress at home'
+      }
+      imageVariant={viewMode === 'register' ? 'portrait' : 'landscape'}
+      imageLabel={viewMode === 'register' ? 'Your care journey starts here' : 'Your private wellness space'}
+    >
               {viewMode !== 'forgot' && viewMode !== 'verify' && (
-                <div className="mb-6 grid grid-cols-2 rounded-xl bg-slate-100 p-1 dark:bg-slate-950/60">
+                <div className="mb-6 grid grid-cols-2 rounded-xl border border-slate-200/70 bg-slate-100/80 p-1 dark:border-slate-700/70 dark:bg-slate-950/60">
                   <button
                     type="button"
                     onClick={() => handleToggleView('login')}
                     disabled={isLoading}
-                    className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-all ${viewMode === 'login' ? 'bg-white text-blue-700 shadow-sm dark:bg-slate-800 dark:text-blue-300' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
+                    className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-all ${viewMode === 'login' ? 'bg-white text-teal-800 shadow-sm dark:bg-slate-800 dark:text-teal-300' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
                   >
                     Sign in
                   </button>
@@ -465,7 +412,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
                     type="button"
                     onClick={() => handleToggleView('register')}
                     disabled={isLoading}
-                    className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-all ${viewMode === 'register' ? 'bg-white text-blue-700 shadow-sm dark:bg-slate-800 dark:text-blue-300' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
+                    className={`rounded-lg px-4 py-2.5 text-sm font-semibold transition-all ${viewMode === 'register' ? 'bg-white text-teal-800 shadow-sm dark:bg-slate-800 dark:text-teal-300' : 'text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'}`}
                   >
                     Sign up
                   </button>
@@ -478,11 +425,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
                 </p>
               )}
               {renderContent()}
-            </div>
-          </div>
-        </main>
-      </div>
-    </div>
+    </PublicAuthLayout>
   );
 };
 

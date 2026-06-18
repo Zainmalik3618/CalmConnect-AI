@@ -13,6 +13,8 @@ import ResetPasswordView from './components/ResetPasswordView';
 // FIX: Added import for the new VerificationView component.
 import VerificationView from './components/VerificationView';
 import { API_URL } from './config/api';
+import AboutView from './components/AboutView';
+import ContactView from './components/ContactView';
 
 
 const App: React.FC = () => {
@@ -42,6 +44,12 @@ const App: React.FC = () => {
   // FIX: Added routing for the email verification page.
   if (window.location.pathname === '/verify-email') {
     return <VerificationView theme={theme} toggleTheme={toggleTheme} />;
+  }
+  if (window.location.pathname === '/about') {
+    return <AboutView theme={theme} toggleTheme={toggleTheme} />;
+  }
+  if (window.location.pathname === '/contact') {
+    return <ContactView theme={theme} toggleTheme={toggleTheme} />;
   }
 
   const isRefreshingRef = useRef<Promise<string | null> | null>(null);
