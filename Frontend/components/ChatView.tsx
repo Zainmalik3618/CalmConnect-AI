@@ -92,6 +92,34 @@ const MarkdownFormatter: React.FC<{ text: string }> = ({ text }) => {
     return <div className="text-sm leading-relaxed space-y-2" dangerouslySetInnerHTML={{ __html: createMarkup(text) }} />;
 }
 
+const StreamingMarkdown: React.FC<{ text: string; shouldStream: boolean; onDone: () => void }> = ({ text, shouldStream, onDone }) => {
+    const [visibleText, setVisibleText] = useState(shouldStream ? '' : text);
+
+    useEffect(() => {
+        if (!shouldStream) {
+            setVisibleText(text);
+            return;
+        }
+
+        setVisibleText('');
+        let index = 0;
+        const timer = window.setInterval(() => {
+            index += Math.max(1, Math.ceil(text.length / 90));
+            if (index >= text.length) {
+                setVisibleText(text);
+                window.clearInterval(timer);
+                onDone();
+                return;
+            }
+            setVisibleText(text.slice(0, index));
+        }, 18);
+
+        return () => window.clearInterval(timer);
+    }, [onDone, shouldStream, text]);
+
+    return <MarkdownFormatter text={visibleText} />;
+};
+
 
 interface ChatViewProps {
   currentUser: User;
@@ -118,6 +146,13 @@ const suggestionPrompts = [
         title: "Help me reframe a thought",
         prompt: "I keep thinking 'I'm not good enough'. Can you help me challenge this thought?",
     }
+];
+
+const followUpChips = [
+    { label: 'Tell me more', prompt: 'Can you tell me more about that?' },
+    { label: 'Help me relax', prompt: 'Can you guide me through something calming?' },
+    { label: 'I feel anxious', prompt: "I'm feeling anxious. Can you help me slow down?" },
+    { label: 'Breathing exercise', prompt: 'Can we do a quick breathing exercise together?' },
 ];
 
 // Audio helper functions
@@ -571,7 +606,8 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
         {messages.length === 0 && !isRecording && !isConnecting && !isLoading ? (
             <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
                 <LogoIcon className="h-16 w-16" />
-                <h1 className="text-3xl font-bold mt-4 text-gray-800 dark:text-white">How can I help you today?</h1>
+                <h1 className="text-3xl font-bold mt-4 text-gray-800 dark:text-white">I&apos;m here whenever you need someone to talk to.</h1>
+                <p className="mt-2 max-w-md text-gray-500 dark:text-gray-400">Start with whatever feels present. You do not need to organize it perfectly.</p>
                 <button 
                     onClick={() => setShowFeedbackForm(true)}
                     className="mt-4 flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition-colors text-sm font-medium border border-yellow-200 dark:border-yellow-800"
@@ -593,15 +629,20 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
             </div>
         ) : (
             <div role="log" aria-live="polite" className="flex-1 overflow-y-auto px-4 space-y-6 pt-6 pb-20">
-                {messages.map((msg) => {
+                {messages.map((msg, index) => {
                     const animationClass = msg.isNew 
                         ? (msg.sender === 'user' ? 'animate-message-in-right' : 'animate-message-in-left')
                         : '';
+                    const isLatestAiMessage = msg.sender === 'ai' && index === messages.length - 1;
                     return (
                         <div 
                             key={msg.id} 
                             className={`flex items-start gap-3 ${msg.sender === 'user' ? 'justify-end' : ''} ${animationClass}`}
-                            onAnimationEnd={() => handleAnimationEnd(msg.id)}
+                            onAnimationEnd={() => {
+                                if (msg.sender === 'user') {
+                                    handleAnimationEnd(msg.id);
+                                }
+                            }}
                         >
                             {msg.sender === 'ai' && (
                             <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white flex-shrink-0" aria-hidden="true">
@@ -621,30 +662,45 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
                                     </div>
                                 )}
                                 {msg.sender === 'ai' ? (
-                                    <MarkdownFormatter text={msg.text} />
+                                    <StreamingMarkdown text={msg.text} shouldStream={!!msg.isNew} onDone={() => handleAnimationEnd(msg.id)} />
                                 ) : (
                                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{msg.text}</p>
                                 )}
                                 </div>
                                 {msg.sender === 'ai' && (
-                                    <div className="mt-2 flex items-center gap-2">
-                                        <button
-                                            onClick={() => handleFeedback(msg.id, 'like')}
-                                            className={`p-1 rounded-full transition-all duration-200 ease-in-out ${msg.feedback === 'like' ? 'text-blue-500 bg-blue-100 dark:bg-blue-900/50 transform scale-125' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-                                            aria-label="Like response"
-                                            aria-pressed={msg.feedback === 'like'}
-                                        >
-                                            <ThumbsUpIcon className="h-4 w-4" />
-                                        </button>
-                                        <button
-                                            onClick={() => handleFeedback(msg.id, 'dislike')}
-                                            className={`p-1 rounded-full transition-all duration-200 ease-in-out ${msg.feedback === 'dislike' ? 'text-red-500 bg-red-100 dark:bg-red-900/50 transform scale-125' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
-                                            aria-label="Dislike response"
-                                            aria-pressed={msg.feedback === 'dislike'}
-                                        >
-                                            <ThumbsDownIcon className="h-4 w-4" />
-                                        </button>
-                                    </div>
+                                    <>
+                                        <div className="mt-2 flex items-center gap-2">
+                                            <button
+                                                onClick={() => handleFeedback(msg.id, 'like')}
+                                                className={`p-1 rounded-full transition-all duration-200 ease-in-out ${msg.feedback === 'like' ? 'text-blue-500 bg-blue-100 dark:bg-blue-900/50 transform scale-125' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                                                aria-label="Like response"
+                                                aria-pressed={msg.feedback === 'like'}
+                                            >
+                                                <ThumbsUpIcon className="h-4 w-4" />
+                                            </button>
+                                            <button
+                                                onClick={() => handleFeedback(msg.id, 'dislike')}
+                                                className={`p-1 rounded-full transition-all duration-200 ease-in-out ${msg.feedback === 'dislike' ? 'text-red-500 bg-red-100 dark:bg-red-900/50 transform scale-125' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'}`}
+                                                aria-label="Dislike response"
+                                                aria-pressed={msg.feedback === 'dislike'}
+                                            >
+                                                <ThumbsDownIcon className="h-4 w-4" />
+                                            </button>
+                                        </div>
+                                        {isLatestAiMessage && !isLoading && (
+                                            <div className="mt-3 flex max-w-xl flex-wrap gap-2">
+                                                {followUpChips.map(chip => (
+                                                    <button
+                                                        key={chip.label}
+                                                        onClick={() => handleSend(chip.prompt, 'text')}
+                                                        className="rounded-full border border-teal-200 bg-teal-50 px-3 py-1.5 text-xs font-semibold text-teal-700 hover:bg-teal-100 dark:border-teal-900 dark:bg-teal-950/30 dark:text-teal-300 dark:hover:bg-teal-950/50"
+                                                    >
+                                                        {chip.label}
+                                                    </button>
+                                                ))}
+                                            </div>
+                                        )}
+                                    </>
                                 )}
                             </div>
                             {msg.sender === 'user' && (
@@ -662,10 +718,13 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
                     </div>
                     <div className="typing-indicator max-w-md p-3 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none shadow-sm">
                     <span className="sr-only" role="status">CalmConnect is typing...</span>
-                    <div className="flex items-center space-x-1">
-                        <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
-                        <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
-                        <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
+                    <div className="flex items-center gap-3">
+                        <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">Thinking...</span>
+                        <span className="flex items-center space-x-1">
+                            <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
+                            <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
+                            <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
+                        </span>
                     </div>
                     </div>
                 </div>

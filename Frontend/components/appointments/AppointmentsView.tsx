@@ -316,13 +316,15 @@ const AppointmentsView: React.FC<AppointmentsViewProps> = ({ currentUser, users,
                         })}
                     </ul>
                 ) : (
-                    <div className="text-center py-16 flex flex-col items-center text-gray-500 dark:text-gray-400">
+                    <div className="mx-auto mt-8 flex max-w-lg flex-col items-center rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-6 py-14 text-center text-gray-500 dark:border-gray-700 dark:bg-gray-900/40 dark:text-gray-400">
                          <CalendarIcon />
-                         <h3 className="mt-2 text-lg font-medium text-gray-900 dark:text-white">No {activeTab} appointments</h3>
-                         <p className="mt-1 text-sm">
+                         <h3 className="mt-3 text-lg font-semibold text-gray-900 dark:text-white">No appointments scheduled yet.</h3>
+                         <p className="mt-2 text-sm">
                             {currentUser.role === 'psychiatrist' && activeTab === 'scheduled' 
                                 ? "Click 'Schedule Appointment' to create a new one." 
-                                : `You have no ${activeTab} appointments.`
+                                : activeTab === 'scheduled'
+                                    ? 'When a care session is booked, the details will appear here.'
+                                    : `You have no ${activeTab} appointments.`
                             }
                         </p>
                     </div>

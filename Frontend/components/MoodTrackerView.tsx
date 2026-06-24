@@ -167,9 +167,13 @@ const MoodTrackerView: React.FC<MoodTrackerViewProps> = ({ currentUser, moodHist
             <MoodChart data={moodHistory} />
           </div>
         ) : (
-          <p className="text-center text-gray-500 dark:text-gray-400 py-10">
-            You haven't logged any moods yet. Start tracking to see your history here.
-          </p>
+          <div className="flex flex-col items-center rounded-2xl border border-dashed border-gray-200 bg-gray-50 px-5 py-12 text-center dark:border-gray-700 dark:bg-gray-900/40">
+            <BookOpenIcon />
+            <p className="mt-3 font-semibold text-gray-800 dark:text-gray-100">Your mood story starts with one check-in.</p>
+            <p className="mt-1 max-w-md text-sm text-gray-500 dark:text-gray-400">
+              After you record a few moods, CalmConnect will show your recent pattern here.
+            </p>
+          </div>
         )}
       </div>
 

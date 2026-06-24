@@ -91,9 +91,11 @@ const PatientDashboard: React.FC<PatientDashboardProps> = ({
             conversations={conversations}
             chatSessions={chatSessions}
             moodHistory={moodHistory}
+            setMoodHistory={setMoodHistory}
             journalEntries={journalEntries}
             completedLogs={completedLogs}
             totalUnreadCount={totalUnreadCount}
+            apiFetch={apiFetch}
             setCurrentView={setCurrentView}
           />
         );

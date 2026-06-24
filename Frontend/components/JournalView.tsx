@@ -151,19 +151,27 @@ const JournalView: React.FC<JournalViewProps> = ({ currentUser, entries, setEntr
           </button>
         </div>
         <div className="overflow-y-auto">
-          {sortedEntries.map(entry => (
-            <button
-              key={entry.id}
-              onClick={() => handleSelectEntry(entry)}
-              className={`w-full text-left p-4 border-b border-gray-200 dark:border-gray-700 ${
-                activeEntry?.id === entry.id ? 'bg-blue-100 dark:bg-blue-900/50' : 'hover:bg-gray-100 dark:hover:bg-gray-800'
-              } focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500`}
-              aria-current={activeEntry?.id === entry.id ? 'true' : undefined}
-            >
-              <p className="font-semibold truncate">{entry.content.split('\n')[0] || 'New Entry'}</p>
-              <p className="text-sm text-gray-500">{formatDate(entry.date)}</p>
-            </button>
-          ))}
+          {sortedEntries.length > 0 ? (
+            sortedEntries.map(entry => (
+              <button
+                key={entry.id}
+                onClick={() => handleSelectEntry(entry)}
+                className={`w-full text-left p-4 border-b border-gray-200 dark:border-gray-700 ${
+                  activeEntry?.id === entry.id ? 'bg-blue-100 dark:bg-blue-900/50' : 'hover:bg-gray-100 dark:hover:bg-gray-800'
+                } focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500`}
+                aria-current={activeEntry?.id === entry.id ? 'true' : undefined}
+              >
+                <p className="font-semibold truncate">{entry.content.split('\n')[0] || 'New Entry'}</p>
+                <p className="text-sm text-gray-500">{formatDate(entry.date)}</p>
+              </button>
+            ))
+          ) : (
+            <div className="m-4 rounded-xl border border-dashed border-gray-200 bg-gray-50 p-5 text-center dark:border-gray-700 dark:bg-gray-800/50">
+              <LightbulbIcon />
+              <p className="mt-3 font-semibold text-gray-800 dark:text-gray-100">Your thoughts matter.</p>
+              <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Start your first journal entry today.</p>
+            </div>
+          )}
         </div>
       </div>
       <div className="w-2/3 flex flex-col p-6">
@@ -215,6 +223,12 @@ const JournalView: React.FC<JournalViewProps> = ({ currentUser, entries, setEntr
             )}
           </button>
         </div>
+        {sortedEntries.length === 0 && !currentContent && (
+          <div className="mb-4 rounded-2xl bg-blue-50 p-5 text-blue-900 dark:bg-blue-950/25 dark:text-blue-100">
+            <p className="font-semibold">Your private space is ready.</p>
+            <p className="mt-1 text-sm text-blue-700 dark:text-blue-200">Write one sentence, a messy thought, or something you want to remember.</p>
+          </div>
+        )}
         <label htmlFor="journal-content" className="sr-only">Journal Content</label>
         <textarea
           id="journal-content"

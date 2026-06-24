@@ -137,7 +137,10 @@ const ThoughtRecordsManager: React.FC<ThoughtRecordsManagerProps> = ({ currentUs
             </button>
           ))}
           {sortedRecords.length === 0 && (
-              <p className="p-4 text-center text-gray-500">No records yet. Start a new one!</p>
+              <div className="m-4 rounded-xl border border-dashed border-gray-200 bg-gray-50 p-5 text-center dark:border-gray-700 dark:bg-gray-800/50">
+                <p className="font-semibold text-gray-800 dark:text-gray-100">No thought records yet.</p>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">Start one when a thought feels worth unpacking.</p>
+              </div>
           )}
         </div>
       </div>
@@ -159,6 +162,11 @@ const ThoughtRecordsManager: React.FC<ThoughtRecordsManagerProps> = ({ currentUs
                     <p className="text-gray-600 dark:text-gray-300 mb-6">
                         Select a record from the list or click the '+' button to start a new one.
                     </p>
+                    {sortedRecords.length === 0 && (
+                      <button onClick={handleNewRecord} className="inline-flex items-center justify-center gap-2 rounded-lg bg-blue-500 px-4 py-2 font-semibold text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <PlusIcon /> Start your first record
+                      </button>
+                    )}
                 </div>
             </div>
         )}
