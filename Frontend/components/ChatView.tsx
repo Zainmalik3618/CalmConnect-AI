@@ -660,7 +660,7 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
                     <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white flex-shrink-0" aria-hidden="true">
                     <LogoIcon className="h-5 w-5" />
                     </div>
-                    <div className="max-w-md p-3 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none shadow-sm">
+                    <div className="typing-indicator max-w-md p-3 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none shadow-sm">
                     <span className="sr-only" role="status">CalmConnect is typing...</span>
                     <div className="flex items-center space-x-1">
                         <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>

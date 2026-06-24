@@ -206,16 +206,23 @@
         background-color: rgba(19, 78, 74, 0.38) !important;
       }
 
+      .typing-indicator {
+        animation: typing-bubble 2.4s var(--ease-clinical) infinite;
+        transform-origin: left bottom;
+      }
+
       .typing-dot {
-        animation: typing-dot 1.2s var(--ease-clinical) infinite;
+        animation: typing-dot 1.45s var(--ease-clinical-emphasis) infinite;
+        transform-origin: center;
+        will-change: opacity, transform;
       }
 
       .typing-dot:nth-child(2) {
-        animation-delay: 160ms;
+        animation-delay: 180ms;
       }
 
       .typing-dot:nth-child(3) {
-        animation-delay: 320ms;
+        animation-delay: 360ms;
       }
 
       @keyframes app-shell-in {
@@ -240,16 +247,34 @@
         }
       }
 
+      @keyframes typing-bubble {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        45% {
+          transform: translateY(-1px) scale(1.015);
+        }
+      }
+
       @keyframes typing-dot {
         0%,
-        72%,
+        64%,
         100% {
-          opacity: 0.35;
-          transform: translateY(0);
+          opacity: 0.34;
+          transform: translateY(0) scale(0.82);
         }
-        36% {
+        18% {
+          opacity: 0.72;
+          transform: translateY(-1px) scale(0.95);
+        }
+        34% {
           opacity: 1;
-          transform: translateY(-2px);
+          transform: translateY(-3px) scale(1.12);
+        }
+        48% {
+          opacity: 0.62;
+          transform: translateY(0.5px) scale(0.9);
         }
       }
 
