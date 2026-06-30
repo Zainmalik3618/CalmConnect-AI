@@ -96,6 +96,27 @@
         --motion-fast: 160ms;
         --motion-medium: 260ms;
         --motion-slow: 420ms;
+        --skeleton-base: #dbe3ec;
+        --skeleton-highlight: #f1f5f9;
+      }
+
+      .dark {
+        --skeleton-base: #263244;
+        --skeleton-highlight: #3a475b;
+      }
+
+      .loading-skeleton {
+        background-color: var(--skeleton-base) !important;
+        background-image: linear-gradient(100deg, transparent 30%, var(--skeleton-highlight) 50%, transparent 70%) !important;
+        background-size: 220% 100% !important;
+        animation: skeleton-shimmer 1.6s var(--ease-clinical) infinite;
+      }
+
+      .loading-skeleton-on-accent {
+        background-color: rgba(255, 255, 255, 0.38) !important;
+        background-image: linear-gradient(100deg, transparent 30%, rgba(255, 255, 255, 0.72) 50%, transparent 70%) !important;
+        background-size: 220% 100% !important;
+        animation: skeleton-shimmer 1.6s var(--ease-clinical) infinite;
       }
 
       html {
@@ -255,6 +276,11 @@
         45% {
           transform: translateY(-1px) scale(1.015);
         }
+      }
+
+      @keyframes skeleton-shimmer {
+        from { background-position: 120% 0; }
+        to { background-position: -120% 0; }
       }
 
       @keyframes typing-dot {
@@ -629,8 +655,6 @@
         --role-primary-subtle: #f0fdfa;
         --role-primary-ink: #134e4a;
         --role-accent: #0284c7;
-        --role-bg: #f0f9fb;
-        --role-bg-pattern: rgba(15, 118, 110, 0.045);
         --role-ring: rgba(15, 118, 110, 0.36);
       }
 
@@ -641,12 +665,6 @@
         --role-primary-subtle: rgba(15, 118, 110, 0.14);
         --role-primary-ink: #99f6e4;
         --role-accent: #38bdf8;
-        --role-bg: #071a1d;
-        --role-bg-pattern: rgba(45, 212, 191, 0.035);
-        --role-surface: #102326;
-        --role-surface-muted: #183236;
-        --role-sidebar: #0d2023;
-        --role-border: rgba(94, 234, 212, 0.13);
         --role-ring: rgba(45, 212, 191, 0.34);
       }
 
@@ -657,8 +675,6 @@
         --role-primary-subtle: #eef2ff;
         --role-primary-ink: #3730a3;
         --role-accent: #7c3aed;
-        --role-bg: #f5f7ff;
-        --role-bg-pattern: rgba(79, 70, 229, 0.04);
         --role-ring: rgba(79, 70, 229, 0.36);
       }
 
@@ -669,12 +685,6 @@
         --role-primary-subtle: rgba(79, 70, 229, 0.14);
         --role-primary-ink: #c7d2fe;
         --role-accent: #a78bfa;
-        --role-bg: #0e1022;
-        --role-bg-pattern: rgba(129, 140, 248, 0.035);
-        --role-surface: #17182c;
-        --role-surface-muted: #20213a;
-        --role-sidebar: #15162a;
-        --role-border: rgba(199, 210, 254, 0.12);
         --role-ring: rgba(129, 140, 248, 0.34);
       }
 
@@ -685,8 +695,6 @@
         --role-primary-subtle: #f1f5f9;
         --role-primary-ink: #0f172a;
         --role-accent: #0891b2;
-        --role-bg: #f3f6fa;
-        --role-bg-pattern: rgba(15, 76, 129, 0.04);
         --role-ring: rgba(15, 76, 129, 0.34);
       }
 
@@ -697,13 +705,42 @@
         --role-primary-subtle: rgba(15, 23, 42, 0.5);
         --role-primary-ink: #bae6fd;
         --role-accent: #22d3ee;
-        --role-bg: #080f1c;
-        --role-bg-pattern: rgba(56, 189, 248, 0.035);
-        --role-surface: #101827;
-        --role-surface-muted: #1a2435;
-        --role-sidebar: #0d1523;
-        --role-border: rgba(186, 230, 253, 0.12);
         --role-ring: rgba(56, 189, 248, 0.34);
+      }
+
+      /* Keep structural surfaces neutral across every dashboard role. Role colors
+         are reserved for actions, focus states, badges, and active navigation. */
+      .role-theme .role-app-header {
+        background-color: color-mix(in srgb, var(--role-sidebar) 78%, transparent) !important;
+        border-color: var(--role-border) !important;
+        -webkit-backdrop-filter: blur(18px) saturate(145%);
+        backdrop-filter: blur(18px) saturate(145%);
+        box-shadow: 0 1px 0 var(--role-border), 0 10px 30px -24px var(--role-shadow);
+      }
+
+      .role-theme .role-app-sidebar {
+        background-color: var(--role-sidebar) !important;
+        border-color: var(--role-border) !important;
+      }
+
+      .role-theme .role-view-background,
+      .role-theme .bg-gray-100,
+      .role-theme .dark\:bg-gray-900 {
+        background-color: var(--role-bg) !important;
+      }
+
+      .role-theme .role-chat-composer {
+        background: linear-gradient(to top, var(--role-bg) 68%, color-mix(in srgb, var(--role-bg) 88%, transparent));
+        -webkit-backdrop-filter: blur(12px);
+        backdrop-filter: blur(12px);
+      }
+
+      .role-theme .bg-gray-50,
+      .role-theme .bg-zinc-50,
+      .role-theme .dark\:bg-gray-700,
+      .role-theme .dark\:bg-zinc-950 {
+        background-color: var(--role-surface-muted) !important;
+        border-color: var(--role-border) !important;
       }
 
       .role-theme .app-shell,

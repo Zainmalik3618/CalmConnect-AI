@@ -477,7 +477,7 @@ const ForumView: React.FC<ForumViewProps> = ({ currentUser, apiFetch }) => {
                       className="inline-flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-40 disabled:hover:bg-blue-600 text-white text-xs font-bold rounded-lg shadow transition-all duration-150 gap-2 active:scale-95"
                     >
                       <Send className="h-3.5 w-3.5" />
-                      {isSubmitting ? 'Posting...' : 'Send Reply'}
+                      {isSubmitting ? <span className="loading-skeleton-on-accent inline-block h-3 w-16 rounded" /> : 'Send Reply'}
                     </button>
                   </div>
                 </form>
@@ -636,9 +636,16 @@ const ForumView: React.FC<ForumViewProps> = ({ currentUser, apiFetch }) => {
 
               {/* Forum Listings */}
               {isLoading ? (
-                <div className="py-20 text-center flex flex-col items-center justify-center gap-2">
-                  <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500"></div>
-                  <p className="text-gray-400 text-xs mt-1">Loading community boards...</p>
+                <div className="space-y-3" role="status" aria-label="Loading community boards">
+                  {[0, 1, 2, 3].map(item => (
+                    <div key={item} className="rounded-2xl border border-gray-100 bg-white p-5 dark:border-gray-700 dark:bg-gray-800">
+                      <div className="space-y-3">
+                        <div className="loading-skeleton h-5 w-2/3 rounded" />
+                        <div className="loading-skeleton h-3 w-full rounded" />
+                        <div className="loading-skeleton h-3 w-1/3 rounded" />
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ) : filteredPosts.length === 0 ? (
                 <div className="p-12 text-center bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 flex flex-col items-center justify-center">

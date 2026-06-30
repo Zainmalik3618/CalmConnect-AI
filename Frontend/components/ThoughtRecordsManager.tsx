@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from 'react';
 import type { ThoughtRecord, User } from '../types';
 // FIX: Removed useLocalStorage import as data is now managed by App.tsx state.
-import { PlusIcon, SpinnerIcon } from './Icons';
+import { PlusIcon } from './Icons';
 import ThoughtRecordForm from './ThoughtRecordForm';
 import Skeleton from './Skeleton';
 
@@ -106,8 +106,11 @@ const ThoughtRecordsManager: React.FC<ThoughtRecordsManagerProps> = ({ currentUs
             ))}
           </div>
         </div>
-        <div className="w-2/3 flex flex-col p-6 items-center justify-center">
-          <SpinnerIcon className="h-12 w-12 text-blue-500" />
+        <div className="w-2/3 flex flex-col p-6 space-y-4">
+          <Skeleton className="h-9 w-2/3" />
+          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-24 w-full rounded-xl" />
+          <Skeleton className="h-12 w-full rounded-lg" />
         </div>
       </div>
     );

@@ -108,7 +108,7 @@ const FeedbackForm: React.FC<FeedbackFormProps> = ({ type, appointmentId, target
                             disabled={rating === 0 || isSubmitting}
                             className="flex-1 px-4 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg shadow-blue-500/20"
                         >
-                            {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
+                            {isSubmitting ? <span className="loading-skeleton-on-accent inline-block h-4 w-24 rounded" /> : 'Submit Feedback'}
                         </button>
                     </div>
                 </form>

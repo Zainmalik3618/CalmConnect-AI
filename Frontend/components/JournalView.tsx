@@ -4,7 +4,7 @@ import React, { useState, useMemo } from 'react';
 // FIX: Removed unused types from import.
 import type { JournalEntry, User } from '../types';
 // FIX: Removed useLocalStorage import as data is now managed by App.tsx state.
-import { PlusIcon, SaveIcon, TrashIcon, LightbulbIcon, SpinnerIcon } from './Icons';
+import { PlusIcon, SaveIcon, TrashIcon, LightbulbIcon } from './Icons';
 import ConfirmationDialog from './ConfirmationDialog';
 import Skeleton from './Skeleton';
 // FIX: Removed import from blank local file. AI logic is now on the backend.
@@ -211,10 +211,7 @@ const JournalView: React.FC<JournalViewProps> = ({ currentUser, entries, setEntr
             className="flex items-center gap-2 text-sm text-blue-600 dark:text-blue-400 hover:underline disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md p-1"
           >
             {isPromptLoading ? (
-              <>
-                <SpinnerIcon className="h-4 w-4" />
-                <span>Generating...</span>
-              </>
+              <span className="loading-skeleton inline-block h-4 w-28 rounded" aria-label="Generating prompt" />
             ) : (
               <>
                 <LightbulbIcon />

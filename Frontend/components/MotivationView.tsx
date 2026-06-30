@@ -4,6 +4,7 @@ import { motion } from 'motion/react';
 import { Flame, Award, Quote, Trophy, TrendingUp, Calendar, Zap, Brain, Smile, Book } from 'lucide-react';
 import axios from 'axios';
 import { API_URL } from '../config/api';
+import Skeleton from './Skeleton';
 
 interface StreakData {
     current_streak: number;
@@ -72,8 +73,13 @@ const MotivationView: React.FC<MotivationViewProps> = ({ apiFetch }) => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+            <div className="mx-auto max-w-6xl space-y-8 p-4" role="status" aria-label="Loading motivation dashboard">
+                <div className="flex items-center justify-between gap-4">
+                    <div className="space-y-3"><Skeleton className="h-9 w-72" /><Skeleton className="h-4 w-96 max-w-full" /></div>
+                    <Skeleton className="h-20 w-44 rounded-xl" />
+                </div>
+                <Skeleton className="h-48 rounded-2xl" />
+                <div className="grid gap-5 md:grid-cols-3">{[0, 1, 2].map(item => <Skeleton key={item} className="h-40 rounded-xl" />)}</div>
             </div>
         );
     }

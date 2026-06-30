@@ -69,7 +69,7 @@ const Sidebar: React.FC<SidebarProps> = ({ currentView, setCurrentView, currentU
     const visibleNavItems = navItemConfig.filter(item => item.roles.includes(currentUser.role));
   
   return (
-    <aside className={`relative z-20 flex flex-shrink-0 flex-col overflow-visible border-r border-gray-200 bg-white p-4 transition-all duration-300 ease-out dark:border-gray-700 dark:bg-gray-800 ${isCollapsed ? 'w-20' : 'w-64'}`}>
+    <aside className={`role-app-sidebar relative z-20 flex flex-shrink-0 flex-col overflow-visible border-r border-gray-200 bg-white p-4 transition-all duration-300 ease-out dark:border-gray-700 dark:bg-gray-800 ${isCollapsed ? 'w-20' : 'w-64'}`}>
        <button 
         onClick={onToggle} 
         className="absolute right-0 top-5 z-40 flex h-8 w-8 translate-x-1/2 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-600 shadow-lg transition-all duration-200 ease-out hover:bg-gray-100 hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600"

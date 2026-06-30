@@ -42,7 +42,7 @@ const DashboardHeader: React.FC<DashboardHeaderProps> = ({
 
   return (
     <>
-      <header className="sticky top-0 z-50 flex h-20 flex-shrink-0 items-center justify-between border-b border-gray-200 bg-white/95 px-4 shadow-sm backdrop-blur-xl dark:border-gray-700 dark:bg-gray-900/95 sm:px-6">
+      <header className="role-app-header sticky top-0 z-50 flex h-20 flex-shrink-0 items-center justify-between border-b border-gray-200 bg-white/95 px-4 shadow-sm backdrop-blur-xl dark:border-gray-700 dark:bg-gray-900/95 sm:px-6">
         <div className="flex min-w-0 items-center gap-3">
           <LogoIcon className="h-10 w-10 flex-shrink-0" />
           <div className="min-w-0">

@@ -5,7 +5,7 @@ import OnboardingView from './components/OnboardingView';
 import PatientDashboard from './components/dashboards/PatientDashboard';
 import PsychiatristDashboard from './components/dashboards/PsychiatristDashboard';
 import AdminDashboard from './components/dashboards/AdminDashboard';
-import { SpinnerIcon } from './components/Icons';
+import Skeleton from './components/Skeleton';
 import useTheme from './hooks/useTheme';
 // FIX: Added imports for all data types that will be fetched from the backend.
 import type { User, Conversation, Appointment, ChatSession, MoodEntry, JournalEntry, ThoughtRecord, CompletedExerciseLog, AppNotification } from './types';
@@ -386,8 +386,18 @@ const App: React.FC = () => {
 
   if (isLoading || isThemeLoading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
-        <SpinnerIcon className="h-12 w-12 text-blue-500" />
+      <div className="min-h-screen bg-gray-100 p-6 dark:bg-gray-900" role="status" aria-label="Loading application">
+        <div className="mx-auto flex max-w-7xl flex-col gap-6">
+          <Skeleton className="h-20 w-full rounded-xl" />
+          <div className="flex gap-6">
+            <Skeleton className="hidden h-[calc(100vh-8rem)] w-64 rounded-xl md:block" />
+            <div className="flex-1 space-y-5">
+              <Skeleton className="h-10 w-56" />
+              <div className="grid gap-4 md:grid-cols-3">{[0, 1, 2].map(item => <Skeleton key={item} className="h-32 rounded-xl" />)}</div>
+              <Skeleton className="h-72 rounded-xl" />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }

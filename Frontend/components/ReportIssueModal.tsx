@@ -104,7 +104,7 @@ const ReportIssueModal: React.FC<ReportIssueModalProps> = ({ isOpen, onClose, ap
                             disabled={!description || isSubmitting}
                             className="flex-1 px-4 py-3 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 ease-out shadow-lg shadow-red-500/20"
                         >
-                            {isSubmitting ? 'Submitting...' : 'Submit Report'}
+                            {isSubmitting ? <span className="loading-skeleton-on-accent inline-block h-4 w-24 rounded" /> : 'Submit Report'}
                         </button>
                     </div>
                 </form>

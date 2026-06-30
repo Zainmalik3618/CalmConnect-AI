@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import type { User } from '../types';
-import { SpinnerIcon, EyeIcon, EyeSlashIcon, CheckCircleIcon } from './Icons';
+import { EyeIcon, EyeSlashIcon, CheckCircleIcon } from './Icons';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import { calculatePasswordStrength } from '../utils/password';
 import { validateEmail, validateUsername } from '../utils/validation';
@@ -185,7 +185,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
             disabled={isLoading}
             className="w-full flex justify-center items-center gap-2 px-4 py-3 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-lg shadow-sm shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all"
           >
-            {isLoading ? <SpinnerIcon /> : 'Resend Verification Email'}
+            {isLoading ? <span className="loading-skeleton-on-accent h-4 w-40 rounded" /> : 'Resend Verification Email'}
           </button>
           {formMessage && <p role="status" className="text-green-500 text-sm text-center pt-2">{formMessage}</p>}
           <p className="text-sm text-center text-slate-600 dark:text-slate-400">
@@ -228,7 +228,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
                 aria-busy={isLoading}
                 className="w-full flex justify-center items-center gap-2 px-4 py-3 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-lg shadow-sm shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all"
               >
-                {isLoading ? <SpinnerIcon /> : 'Send Reset Link'}
+                {isLoading ? <span className="loading-skeleton-on-accent h-4 w-28 rounded" /> : 'Send Reset Link'}
               </button>
             </div>
           </form>
@@ -348,8 +348,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
             >
               {isLoading ? (
                 <>
-                  <SpinnerIcon />
-                  <span>{isLoginView ? 'Signing in...' : 'Creating Account...'}</span>
+                  <span className="loading-skeleton-on-accent h-4 w-28 rounded" />
                 </>
               ) : (
                 isLoginView ? 'Sign in' : 'Create Account'
@@ -360,7 +359,7 @@ const AuthView: React.FC<AuthViewProps> = ({ onAuthSuccess, theme, toggleTheme }
         {error.includes('verify your email') && (
             <div className="text-center mt-4">
                 <button onClick={handleResendVerification} className="text-sm font-semibold text-blue-600 hover:text-blue-500 disabled:opacity-50" disabled={isLoading}>
-                    {isLoading ? 'Sending...' : 'Resend verification email'}
+                    {isLoading ? <span className="loading-skeleton inline-block h-4 w-24 rounded" /> : 'Resend verification email'}
                 </button>
                 {formMessage && <p role="status" className="text-green-500 text-sm text-center pt-2">{formMessage}</p>}
             </div>

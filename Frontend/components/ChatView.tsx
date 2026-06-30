@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react'
 // FIX: Added apiFetch prop type, removed unused Message type.
 import type { User, ChatSession, Message } from '../types';
 // FIX: Removed imports from blank local files. AI logic is now on the backend.
-import { SendIcon, UserIcon, LogoIcon, SpinnerIcon, TrashIcon, MicrophoneIcon, ThumbsUpIcon, ThumbsDownIcon, PlusIcon, PencilIcon, StarIcon } from './Icons';
+import { SendIcon, UserIcon, LogoIcon, TrashIcon, MicrophoneIcon, ThumbsUpIcon, ThumbsDownIcon, PlusIcon, PencilIcon, StarIcon } from './Icons';
 import ConfirmationDialog from './ConfirmationDialog';
 import EmergencyBanner from './EmergencyBanner';
 import FeedbackForm from './FeedbackForm';
 // FIX: The LiveSession type is not exported from @google/genai. It has been removed.
 import { GoogleGenAI, LiveServerMessage, Modality, Blob } from "@google/genai";
+import { BrainCircuit, ChevronRight, Heart, ShieldCheck, Sparkles, Wind } from 'lucide-react';
 
 // Component to render markdown-formatted text safely
 const MarkdownFormatter: React.FC<{ text: string }> = ({ text }) => {
@@ -131,20 +132,32 @@ interface ChatViewProps {
 
 const suggestionPrompts = [
     {
-        title: "Help me practice gratitude",
+        title: "Help me notice something good",
         prompt: "Can you give me a journaling prompt about gratitude?",
+        label: "Reflect",
+        icon: Heart,
+        iconClass: "bg-rose-50 text-rose-600 dark:bg-rose-950/40 dark:text-rose-300",
     },
     {
-        title: "I'm feeling anxious",
+        title: "I need a moment to breathe",
         prompt: "I'm feeling anxious right now, can you suggest a quick breathing exercise?",
+        label: "Find calm",
+        icon: Wind,
+        iconClass: "bg-sky-50 text-sky-600 dark:bg-sky-950/40 dark:text-sky-300",
     },
     {
-        title: "Explain a CBT concept",
+        title: "Help me understand a thought",
         prompt: "Explain what a 'cognitive distortion' is in simple terms.",
+        label: "Learn",
+        icon: BrainCircuit,
+        iconClass: "bg-violet-50 text-violet-600 dark:bg-violet-950/40 dark:text-violet-300",
     },
     {
-        title: "Help me reframe a thought",
+        title: "I want to look at this differently",
         prompt: "I keep thinking 'I'm not good enough'. Can you help me challenge this thought?",
+        label: "Reframe",
+        icon: Sparkles,
+        iconClass: "bg-amber-50 text-amber-600 dark:bg-amber-950/40 dark:text-amber-300",
     }
 ];
 
@@ -249,6 +262,7 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
   const handleNewChat = () => {
       setActiveSessionId(null);
       setShowEmergency(false);
+      setShowFeedbackForm(false);
   };
   
   const handleSend = useCallback(async (messageText: string, source: 'text' | 'voice' = 'text') => {
@@ -544,7 +558,7 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
   }, [stopVoicemailSession]);
 
   return (
-    <div className="flex h-full bg-gray-100 dark:bg-gray-900 overflow-hidden">
+    <div className="role-view-background flex h-[calc(100vh-5rem)] min-h-0 flex-none overflow-hidden bg-gray-100 dark:bg-gray-900">
         {/* Chat History Sidebar */}
         <aside className="w-80 flex flex-col bg-gray-50 dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700">
             <div className="p-4 border-b border-gray-200 dark:border-gray-700">
@@ -600,35 +614,72 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
             </div>
         </aside>
 
-      <div className="flex flex-col h-full flex-1">
+      <div className="relative flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden">
         {showEmergency && <EmergencyBanner />}
         
         {messages.length === 0 && !isRecording && !isConnecting && !isLoading ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center p-4">
-                <LogoIcon className="h-16 w-16" />
-                <h1 className="text-3xl font-bold mt-4 text-gray-800 dark:text-white">I&apos;m here whenever you need someone to talk to.</h1>
-                <p className="mt-2 max-w-md text-gray-500 dark:text-gray-400">Start with whatever feels present. You do not need to organize it perfectly.</p>
-                <button 
-                    onClick={() => setShowFeedbackForm(true)}
-                    className="mt-4 flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition-colors text-sm font-medium border border-yellow-200 dark:border-yellow-800"
-                >
-                    <StarIcon className="h-4 w-4" /> Rate AI Experience
-                </button>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8 w-full max-w-lg">
-                    {suggestionPrompts.map((item) => (
-                        <button
-                            key={item.title}
-                            onClick={() => handleSend(item.prompt, 'text')}
-                            className="p-4 bg-white dark:bg-gray-800 rounded-lg shadow hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-left focus:outline-none focus:ring-2 focus:ring-blue-500"
-                        >
-                            <p className="font-semibold text-gray-700 dark:text-gray-200">{item.title}</p>
-                            <p className="text-sm text-gray-500 dark:text-gray-400">{item.prompt}</p>
-                        </button>
-                    ))}
+            <div className="flex flex-1 items-center justify-center overflow-y-auto px-5 pb-28 pt-4 sm:px-8 sm:pb-28 sm:pt-5">
+                <div className="w-full max-w-2xl">
+                    <div className="flex items-start gap-4 sm:gap-5">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-teal-100/80 dark:bg-teal-900/30">
+                            <LogoIcon className="h-8 w-8" />
+                        </div>
+                        <div className="pt-0.5 text-left">
+                            <p className="text-sm font-medium text-teal-700 dark:text-teal-300">Hi {currentUser.username}, I&apos;m here with you.</p>
+                            <h1 className="mt-1 text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">
+                                What would you like to talk about?
+                            </h1>
+                            <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                                You can say as much or as little as you want. There&apos;s no right way to begin.
+                            </p>
+                        </div>
+                    </div>
+
+                    <p className="mb-2 mt-5 text-left text-sm font-medium text-slate-500 dark:text-slate-400">
+                        Not sure where to start? Try one of these:
+                    </p>
+
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                        {suggestionPrompts.map((item) => {
+                            const PromptIcon = item.icon;
+                            return (
+                                <button
+                                    key={item.title}
+                                    onClick={() => handleSend(item.prompt, 'text')}
+                                    className="group flex min-h-20 items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/75 p-3.5 text-left shadow-sm transition-all hover:border-teal-300 hover:bg-white hover:shadow-md focus:outline-none focus:ring-2 focus:ring-teal-500 dark:border-slate-700 dark:bg-slate-800/60 dark:hover:border-teal-700 dark:hover:bg-slate-800"
+                                >
+                                    <span className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${item.iconClass}`}>
+                                        <PromptIcon className="h-4.5 w-4.5" aria-hidden="true" />
+                                    </span>
+                                    <span className="min-w-0 flex-1">
+                                        <span className="block text-sm font-semibold text-slate-800 dark:text-slate-100">{item.title}</span>
+                                        <span className="mt-0.5 block truncate text-xs text-slate-500 dark:text-slate-400">{item.prompt}</span>
+                                    </span>
+                                    <ChevronRight className="h-4 w-4 shrink-0 text-slate-300 transition-transform group-hover:translate-x-0.5 group-hover:text-teal-600 dark:text-slate-600 dark:group-hover:text-teal-300" aria-hidden="true" />
+                                </button>
+                            );
+                        })}
+                    </div>
+
+                    <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-slate-400 dark:text-slate-500">
+                        <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                        This conversation is private. CalmConnect does not replace professional or emergency care.
+                    </div>
                 </div>
             </div>
         ) : (
-            <div role="log" aria-live="polite" className="flex-1 overflow-y-auto px-4 space-y-6 pt-6 pb-20">
+            <div className="flex-1 min-h-0 flex flex-col">
+                {activeSessionId && activeSessionId !== 'temp' && messages.length > 0 && (
+                    <div className="flex justify-end px-4 py-2">
+                        <button
+                            onClick={() => setShowFeedbackForm(true)}
+                            className="flex items-center gap-2 px-4 py-2 rounded-full bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400 hover:bg-yellow-100 dark:hover:bg-yellow-900/40 transition-colors text-sm font-medium border border-yellow-200 dark:border-yellow-800"
+                        >
+                            <StarIcon className="h-4 w-4" /> Rate This Chat
+                        </button>
+                    </div>
+                )}
+                <div role="log" aria-live="polite" className="flex-1 overflow-y-auto px-4 space-y-6 pt-6 pb-32">
                 {messages.map((msg, index) => {
                     const animationClass = msg.isNew 
                         ? (msg.sender === 'user' ? 'animate-message-in-right' : 'animate-message-in-left')
@@ -716,24 +767,19 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
                     <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white flex-shrink-0" aria-hidden="true">
                     <LogoIcon className="h-5 w-5" />
                     </div>
-                    <div className="typing-indicator max-w-md p-3 rounded-xl bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded-bl-none shadow-sm">
+                    <div className="max-w-md space-y-2 p-3 rounded-xl bg-white dark:bg-gray-700 rounded-bl-none shadow-sm" role="status" aria-label="CalmConnect is preparing a response">
                     <span className="sr-only" role="status">CalmConnect is typing...</span>
-                    <div className="flex items-center gap-3">
-                        <span className="text-xs font-semibold text-gray-500 dark:text-gray-300">Thinking...</span>
-                        <span className="flex items-center space-x-1">
-                            <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
-                            <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
-                            <span className="typing-dot h-2 w-2 bg-gray-400 rounded-full"></span>
-                        </span>
-                    </div>
+                    <div className="loading-skeleton h-3 w-64 rounded" />
+                    <div className="loading-skeleton h-3 w-44 rounded" />
                     </div>
                 </div>
                 )}
                 <div ref={messagesEndRef} />
+                </div>
             </div>
         )}
 
-        <div className="mt-auto px-4 pb-4">
+        <div className="role-chat-composer absolute inset-x-0 bottom-0 z-20 px-4 pb-4 pt-3">
             {error && <p role="alert" className="text-red-500 text-sm text-center mb-2">{error}</p>}
             
             {isConnecting || isRecording ? (
@@ -748,7 +794,7 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
                     <div className="flex-1 text-center text-sm text-gray-600 dark:text-gray-300 flex items-center justify-center gap-2">
                         {isConnecting ? (
                             <>
-                                <SpinnerIcon className="h-4 w-4" /> Connecting...
+                                <span className="loading-skeleton h-4 w-28 rounded" aria-label="Connecting" />
                             </>
                         ) : (
                             <>
@@ -819,7 +865,8 @@ const ChatView: React.FC<ChatViewProps> = ({ currentUser, chatSessions, setChatS
         {showFeedbackForm && (
             <FeedbackForm
                 type="ai_support"
-                title="Rate your AI experience"
+                targetId={activeSessionId || undefined}
+                title="Rate this chat"
                 onClose={() => setShowFeedbackForm(false)}
                 apiFetch={apiFetch}
                 onSubmit={() => {

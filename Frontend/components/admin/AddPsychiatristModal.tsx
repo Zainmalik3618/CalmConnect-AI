@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import type { User } from '../../types';
-import { SpinnerIcon, EyeIcon, EyeSlashIcon, UserPlusIcon } from '../Icons';
+import { EyeIcon, EyeSlashIcon, UserPlusIcon } from '../Icons';
 import PasswordStrengthIndicator from '../PasswordStrengthIndicator';
 import { calculatePasswordStrength } from '../../utils/password';
 import { validateEmail, validateUsername } from '../../utils/validation';
@@ -153,7 +153,7 @@ const AddPsychiatristModal: React.FC<AddPsychiatristModalProps> = ({ isOpen, onC
                      <div className="flex justify-end gap-3 pt-4">
                         <button type="button" onClick={onClose} disabled={isLoading} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Cancel</button>
                         <button type="submit" disabled={isLoading} className="px-4 py-2 flex items-center justify-center gap-2 w-40 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-blue-400">
-                            {isLoading ? <SpinnerIcon/> : 'Create Account'}
+                            {isLoading ? <span className="loading-skeleton-on-accent h-4 w-24 rounded" /> : 'Create Account'}
                         </button>
                     </div>
                 </form>

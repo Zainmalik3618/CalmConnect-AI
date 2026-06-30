@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { SpinnerIcon, CheckCircleIcon, WarningIcon } from './Icons';
+import { CheckCircleIcon, WarningIcon } from './Icons';
 import type { Theme } from '../hooks/useTheme';
 import { API_URL } from '../config/api';
 import PublicAuthLayout from './PublicAuthLayout';
@@ -107,10 +107,8 @@ const VerificationView: React.FC<VerificationViewProps> = ({ theme, toggleTheme 
       case 'verifying':
         return (
           <>
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-50 text-blue-600 dark:bg-blue-900/20 dark:text-blue-300">
-              <SpinnerIcon className="h-7 w-7" />
-            </div>
-            <h2 className="text-2xl font-semibold mt-5 text-slate-950 dark:text-white">{message}</h2>
+            <div className="loading-skeleton mx-auto h-14 w-14 rounded-2xl" />
+            <div className="loading-skeleton mx-auto mt-5 h-7 w-64 rounded" aria-label={message} />
           </>
         );
       case 'success':
@@ -173,7 +171,7 @@ const VerificationView: React.FC<VerificationViewProps> = ({ theme, toggleTheme 
                   disabled={isResending}
                   className="w-full flex justify-center items-center gap-2 px-4 py-3 text-sm font-semibold text-white bg-blue-600 rounded-lg shadow-sm shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all"
                 >
-                  {isResending ? <SpinnerIcon /> : 'Resend Link'}
+                  {isResending ? <span className="loading-skeleton-on-accent h-4 w-24 rounded" /> : 'Resend Link'}
                 </button>
               </form>
             </div>

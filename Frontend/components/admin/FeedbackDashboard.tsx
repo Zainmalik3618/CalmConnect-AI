@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
-import { StarIcon, WarningIcon, CheckCircleIcon, SpinnerIcon } from '../Icons';
+import { StarIcon, WarningIcon, CheckCircleIcon } from '../Icons';
+import Skeleton from '../Skeleton';
 
 interface Feedback {
     id: string;
@@ -70,8 +71,9 @@ const FeedbackDashboard: React.FC<FeedbackDashboardProps> = ({ apiFetch }) => {
 
     if (loading) {
         return (
-            <div className="flex items-center justify-center h-64">
-                <SpinnerIcon className="h-8 w-8 text-blue-600" />
+            <div className="space-y-5 p-6 md:p-8" role="status" aria-label="Loading feedback">
+                <div className="flex items-center justify-between"><Skeleton className="h-8 w-56" /><Skeleton className="h-11 w-64 rounded-xl" /></div>
+                {[0, 1, 2, 3].map(item => <Skeleton key={item} className="h-28 rounded-xl" />)}
             </div>
         );
     }

@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { SpinnerIcon, EyeIcon, EyeSlashIcon, CheckCircleIcon } from './Icons';
+import { EyeIcon, EyeSlashIcon, CheckCircleIcon } from './Icons';
 import PasswordStrengthIndicator from './PasswordStrengthIndicator';
 import { calculatePasswordStrength } from '../utils/password';
 import PasswordRequirements from './PasswordRequirements';
@@ -170,7 +170,7 @@ const ResetPasswordView: React.FC<ResetPasswordViewProps> = ({ theme, toggleThem
                     aria-busy={isLoading}
                     className="w-full flex justify-center items-center gap-2 px-4 py-3 text-sm font-semibold text-white bg-blue-600 border border-transparent rounded-lg shadow-sm shadow-blue-500/20 hover:bg-blue-700 hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-blue-400 disabled:cursor-not-allowed transition-all"
                   >
-                    {isLoading ? <SpinnerIcon /> : 'Reset password'}
+                    {isLoading ? <span className="loading-skeleton-on-accent h-4 w-24 rounded" /> : 'Reset password'}
                   </button>
                 </form>
               )}

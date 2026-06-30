@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import type { User, Appointment } from '../../types';
-import { SpinnerIcon, CalendarIcon } from '../Icons';
+import { CalendarIcon } from '../Icons';
 
 interface AddAppointmentModalProps {
     isOpen: boolean;
@@ -135,7 +135,7 @@ const AddAppointmentModal: React.FC<AddAppointmentModalProps> = ({ isOpen, onClo
                     <div className="flex justify-end gap-3 pt-4">
                         <button type="button" onClick={onClose} disabled={isLoading} className="px-4 py-2 rounded-md border border-gray-300 dark:border-gray-500 text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700">Cancel</button>
                         <button type="submit" disabled={isLoading || patients.length === 0} className="px-4 py-2 flex items-center justify-center gap-2 w-40 rounded-md bg-blue-600 text-white hover:bg-blue-700 disabled:bg-gray-400">
-                            {isLoading ? <SpinnerIcon /> : 'Schedule'}
+                            {isLoading ? <span className="loading-skeleton-on-accent h-4 w-20 rounded" /> : 'Schedule'}
                         </button>
                     </div>
                 </form>
